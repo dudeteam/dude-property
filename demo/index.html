@@ -1,0 +1,27 @@
+<!doctype html>
+<!--
+Copyright (c) 2015 DudeTeam. All rights reserved.
+-->
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>dude-property Demo</title>
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../dude-property.html">
+</head>
+<body>
+<template id="demo" is="dom-bind">
+	<dude-property property="{{ property }}"></dude-property>
+</template>
+<script>
+	var demo = document.querySelector("#demo");
+	demo.addEventListener("dom-change", function () {
+		demo.property = {
+			"name": "Test",
+			"type": "vec2"
+		};
+	});
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{
+  "name": "dude-property",
+  "version": "0.0.1",
+  "authors": [
+    "Jonathan Picques <jonathan.picques@gmail.com>",
+    "Jeremie Taboada <taboada.jeremie@gmail.com>"
+  ],
+  "description": "An element providing a solution to no problem in particular.",
+  "keywords": [
+    "dude",
+    "state"
+  ],
+  "main": "dude-property.html",
+  "license": "MIT",
+  "homepage": "https://github.com/dudeteam/dude-property",
+  "ignore": [
+    "/.*",
+    "/test/",
+    "/demo/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0.0",
+    "test-fixture": "PolymerElements/test-fixture#~1.0.0",
+    "iron-pages": "PolymerElements/iron-pages#~1.0.3",
+    "paper-toggle-button": "PolymerElements/paper-toggle-button#~1.0.10",
+    "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#~1.0.4",
+    "paper-button": "PolymerElements/paper-button#~1.0.7",
+    "paper-slider": "PolymerElements/paper-slider#~1.0.6",
+    "paper-menu": "PolymerElements/paper-menu#~1.1.1",
+    "paper-item": "PolymerElements/paper-item#~1.0.3"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "web-component-tester": "*"
+  }
+}
