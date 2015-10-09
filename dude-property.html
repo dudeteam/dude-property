@@ -3,8 +3,8 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
 -->
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-pages/iron-pages.html">
+<link rel="import" href="../iron-input/iron-input.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../paper-input/paper-input.html">
 <link rel="import" href="dude-property-reference.html">
 <!--
 `dude-property` A generic picker which adapts automatically according to the type of the given value.
@@ -59,8 +59,8 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
             <iron-pages attr-for-selected="data-type" selected="vec2">
                 <div data-type="vec2" class="layout horizontal">
                     <template is="dom-if" if="[[ !propertyReference ]]">
-                        <paper-input value="{{ propertyValue.x }}" label="x" class="flex" type="number"></paper-input>
-                        <paper-input value="{{ propertyValue.y }}" label="y" class="flex" type="number"></paper-input>
+                        <input is="input" value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number"/>
+                        <input is="input" value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number"/>
                     </template>
                 </div>
             </iron-pages>
