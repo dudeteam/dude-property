@@ -5,6 +5,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
 <link rel="import" href="../iron-pages/iron-pages.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="dude-property-reference.html">
 <!--
 `dude-property` A generic picker which adapts automatically according to the type of the given value.
 
@@ -50,34 +51,22 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
             background: #444444;
             border-radius: 0;
         }
-
-        paper-slider {
-            width: 100%;
-        }
     </style>
     <template>
-        <label>{{ property.name }}</label>
+        <label>[[ propertyName ]]</label>
 
         <div id="picker">
             <iron-pages attr-for-selected="data-type" selected="vec2">
                 <div data-type="vec2" class="layout horizontal">
-                    <template is="dom-if" if="[[ !reference ]]">
-                        <paper-input value="{{ value.x }}" label="x" class="flex" type="number"></paper-input>
-                        <paper-input value="{{ value.y }}" label="y" class="flex" type="number"></paper-input>
-                    </template>
-                    <template is="dom-if" if="[[ reference ]]">
-                        <span>{{ reference.name }}</span><span>x</span>
+                    <template is="dom-if" if="[[ !propertyReference ]]">
+                        <paper-input value="{{ propertyValue.x }}" label="x" class="flex" type="number"></paper-input>
+                        <paper-input value="{{ propertyValue.y }}" label="y" class="flex" type="number"></paper-input>
                     </template>
                 </div>
             </iron-pages>
         </div>
         <div id="reference">
-            <template is="dom-if" if="[[ !reference ]]">
-                <paper-icon-button icon="link"></paper-icon-button>
-            </template>
-            <template is="dom-if" if="[[ reference ]]">
-                <paper-icon-button icon="unlink"></paper-icon-button>
-            </template>
+            <dude-property-reference reference="[[ propertyReference ]]"></dude-property-reference>
         </div>
     </template>
     <script>
@@ -85,42 +74,49 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
 
             is: "dude-property",
 
+            listeners: {
+                "dude-property-reference-remove": "_removeReference"
+            },
+
             properties: {
 
                 /**
                  *
                  */
-                "name": {
+                "propertyName": {
                     "type": String
                 },
 
                 /**
                  *
                  */
-                "type": {
-                    "type": "String"
+                "propertyType": {
+                    "type": String
                 },
 
                 /**
                  *
                  */
-                "value": {
+                "propertyValue": {
                     "type": Object
                 },
 
                 /**
                  *
                  */
-                "reference": {
+                "propertyReference": {
                     "type": Object,
                     "value": null
                 }
             },
 
-            ready: function () {
-                window.stuff = function () {
-                    console.log(this.value);
-                }.bind(this);
+            /**
+             * Called when the dude property reference is removed
+             * @delegate
+             * @private
+             */
+            _removeReference: function () {
+                this.set("propertyReference", null);
             }
         });
     </script>

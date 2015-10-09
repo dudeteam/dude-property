@@ -2,6 +2,8 @@
 Copyright (c) 2015 DudeTeam. All rights reserved.
 -->
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <!--
 `dude-property-reference`
 
@@ -10,11 +12,46 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
 @demo demo/index.html
 -->
 <dom-module id="dude-property-reference">
-    <template></template>
+    <style>
+        #tag {
+
+        }
+    </style>
+    <template>
+        <template is="dom-if" if="[[ !reference ]]">
+            <paper-icon-button icon="link"></paper-icon-button>
+        </template>
+        <template is="dom-if" if="[[ reference ]]">
+            <div id="tag">
+                <span>[[ reference.name ]]</span>
+                <paper-icon-button icon="icons:cancel" on-click="_removeReference"></paper-icon-button>
+            </div>
+        </template>
+    </template>
     <script>
         Polymer({
 
-            is: "dude-property-reference"
+            is: "dude-property-reference",
+
+            properties: {
+
+                /**
+                 *
+                 */
+                "reference": {
+                    "type": Object,
+                    "value": null
+                }
+            },
+
+            /**
+             * Called when removing the reference
+             * @delegate
+             * @private
+             */
+            _removeReference: function () {
+                this.fire("dude-property-reference-remove");
+            }
         });
     </script>
 </dom-module>
