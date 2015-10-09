@@ -19,7 +19,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
     </style>
     <template>
         <template is="dom-if" if="[[ !reference ]]">
-            <paper-icon-button icon="link"></paper-icon-button>
+            <paper-icon-button icon="link" on-click="_addReference"></paper-icon-button>
         </template>
         <template is="dom-if" if="[[ reference ]]">
             <div id="tag">
@@ -45,7 +45,18 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
             },
 
             /**
+             * Called when adding a reference
+             * @event dude-property-reference-add
+             * @delegate
+             * @private
+             */
+            _addReference: function () {
+                this.fire("dude-property-reference-add");
+            },
+
+            /**
              * Called when removing the reference
+             * @event dude-property-reference-remove
              * @delegate
              * @private
              */

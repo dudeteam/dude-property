@@ -59,8 +59,8 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
             <iron-pages attr-for-selected="data-type" selected="vec2">
                 <div data-type="vec2" class="layout horizontal">
                     <template is="dom-if" if="[[ !propertyReference ]]">
-                        <input is="input" value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number"/>
-                        <input is="input" value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number"/>
+                        <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number"/>
+                        <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number"/>
                     </template>
                 </div>
             </iron-pages>
@@ -75,6 +75,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
             is: "dude-property",
 
             listeners: {
+                "dude-property-reference-add": "_addReference",
                 "dude-property-reference-remove": "_removeReference"
             },
 
@@ -108,6 +109,17 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                     "type": Object,
                     "value": null
                 }
+            },
+
+            /**
+             * Called when adding a dude property reference
+             * @delegate
+             * @private
+             */
+            _addReference: function () {
+                this.set("propertyReference", {
+                    "name": "Test add"
+                });
             },
 
             /**

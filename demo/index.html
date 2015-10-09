@@ -13,10 +13,10 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
 <body>
 <template id="demo" is="dom-bind">
     <dude-property
-            property-name="[[ propertyName ]]"
-            property-type="[[ propertyType ]]"
-            property-value="[[ propertyValue ]]"
-            property-reference="[[ propertyReference ]]">
+            property-name="{{ propertyName }}"
+            property-type="{{ propertyType }}"
+            property-value="{{ propertyValue }}"
+            property-reference="{{ propertyReference }}">
     </dude-property>
 </template>
 <script>
@@ -24,13 +24,10 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
     demo.addEventListener("dom-change", function () {
         demo.propertyName = "Speed";
         demo.propertyType = "vec2";
-        demo.propertyValue = {
+        demo.set("propertyValue", {
             "x": 32,
             "y": 64
-        };
-        demo.propertyReference = {
-            "name": "Coucou"
-        };
+        });
     });
 </script>
 </body>
