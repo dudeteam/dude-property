@@ -5,6 +5,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
 <link rel="import" href="../iron-pages/iron-pages.html">
 <link rel="import" href="../iron-input/iron-input.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../dude-resource/dude-resource.html">
 <link rel="import" href="dude-property-reference.html">
 <!--
 `dude-property` A generic picker which adapts automatically according to the type of the given value.
@@ -56,11 +57,16 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
         <label>[[ propertyName ]]</label>
 
         <div id="picker">
-            <iron-pages attr-for-selected="data-type" selected="vec2">
+            <iron-pages attr-for-selected="data-type" selected="[[ propertyType ]]">
                 <div data-type="vec2" class="layout horizontal">
                     <template is="dom-if" if="[[ !propertyReference ]]">
                         <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number"/>
                         <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number"/>
+                    </template>
+                </div>
+                <div data-type="resource" class="layout horizontal">
+                    <template is="dom-if" if="[[ !propertyReference ]]">
+                        <dude-resource></dude-resource>
                     </template>
                 </div>
             </iron-pages>
