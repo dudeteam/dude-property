@@ -5,7 +5,11 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
 <link rel="import" href="../iron-pages/iron-pages.html">
 <link rel="import" href="../iron-input/iron-input.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../paper-menu/paper-menu.html">
+<link rel="import" href="../paper-item/paper-item.html">
 <link rel="import" href="../dude-resource/dude-resource.html">
+<link rel="import" href="../iron-flex-layout/classes/iron-flex-layout.html">
 <link rel="import" href="dude-property-reference.html">
 <!--
 `dude-property` A generic picker which adapts automatically according to the type of the given value.
@@ -19,22 +23,49 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
         :host {
             display: block;
             padding: 10px 0;
+            --dude-property-label-color: #888888;
+
+            /* Dropdown style */
+            --paper-dropdown-menu-input: {
+                 font-family: var(--dude-content-text-font);
+             };
+            --paper-input-container-input-color: var(--dude-content-text-color);
+            --paper-item: {
+                 color: var(--dude-content-text-color);
+                 font-weight: normal;
+                font-family: var(--dude-content-text-font);
+            };
+            --paper-menu: {
+                background: var(--dude-primary-background-color);
+            };
+            --paper-dropdown-menu-button: {
+                padding: 0;
+            };
+            --paper-dropdown-menu-ripple: {
+                top: 0;
+                right: 0;
+                bottom: 6px;
+                left: 0;
+            };
+            --default-primary-color: var(--dude-primary-color);
         }
 
         label {
             display: block;
             padding-bottom: 5px;
-            color: var(--text-secondary-color);
+            font-family: var(--dude-primary-text-font);
+            color: var(--dude-property-label-color);
+            font-size: .8em;
         }
 
         input[type="text"], input[type="number"] {
-            color: var(--text-content-color);
+            color: var(--dude-content-text-color);
             background: transparent;
             border: none;
-            border-bottom: 1px solid var(--text-secondary-color);
+            border-bottom: 1px solid var(--dude-property-label-color);
             outline: none;
             font-size: 1em;
-            font-family: var(--text-content-font);
+            font-family: var(--dude-content-text-font);
         }
 
         input[type="text"]:not(:first-child), input[type="number"]:not(:first-child) {
@@ -42,7 +73,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
         }
 
         input[type="text"]:focus, input[type="number"]:focus {
-            border-bottom: 2px solid var(--default-primary-color);
+            border-bottom: 2px solid var(--dude-primary-color);
         }
 
         paper-button {
@@ -55,23 +86,44 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
     </style>
     <template>
         <label>[[ propertyName ]]</label>
-
-        <div id="picker">
-            <iron-pages attr-for-selected="data-type" selected="[[ propertyType ]]">
-                <div data-type="vec2" class="layout horizontal">
-                    <template is="dom-if" if="[[ !propertyReference ]]">
-                        <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number"/>
-                        <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number"/>
-                    </template>
-                </div>
-                <div data-type="resource" class="layout horizontal">
-                    <template is="dom-if" if="[[ !propertyReference ]]">
-                        <dude-resource></dude-resource>
-                    </template>
-                </div>
+        <div class="layout horizontal">
+            <iron-pages attr-for-selected="data-type" selected="[[ propertyType ]]" class="layout horizontal flex">
+                <template is="dom-if" if="[[ !propertyReference ]]">
+                    <div data-type="choice" class="layout horizontal flex">
+                        <paper-dropdown-menu no-label-float>
+                            <paper-menu class="dropdown-content" attr-for-selected="name" selected="{{ propertyValue }}">
+                                <template is="dom-repeat" items="[[ propertyData ]]">
+                                    <paper-item name="[[ item ]]">[[ item ]]</paper-item>
+                                </template>
+                            </paper-menu>
+                        </paper-dropdown-menu>
+                    </div>
+                    <div data-type="vec4" class="layout horizontal flex">
+                        <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number">
+                        <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number">
+                        <input is="input" value="{{ propertyValue.z::input }}" bind-value="{{ propertyValue.z }}" placeholder="z" class="flex" type="number">
+                        <input is="input" value="{{ propertyValue.w::input }}" bind-value="{{ propertyValue.w }}" placeholder="w" class="flex" type="number">
+                    </div>
+                    <div data-type="vec3" class="layout horizontal flex">
+                        <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number">
+                        <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number">
+                        <input is="input" value="{{ propertyValue.z::input }}" bind-value="{{ propertyValue.z }}" placeholder="z" class="flex" type="number">
+                    </div>
+                    <div data-type="vec2" class="layout horizontal flex">
+                        <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number">
+                        <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number">
+                    </div>
+                    <div data-type="number" class="layout horizontal flex">
+                        <input is="input" value="{{ propertyValue::input }}" bind-value="{{ propertyValue }}" placeholder="value" class="flex" type="number">
+                    </div>
+                    <div data-type="string" class="layout horizontal flex">
+                        <input is="input" value="{{ propertyValue::input }}" bind-value="{{ propertyValue }}" placeholder="value" class="flex" type="text">
+                    </div>
+                    <div data-type="resource" class="layout horizontal flex">
+                        <dude-resource class="flex" resource="{{ propertyValue }}" resources="{{ propertyData }}"></dude-resource>
+                    </div>
+                </template>
             </iron-pages>
-        </div>
-        <div id="reference">
             <dude-property-reference reference="[[ propertyReference ]]"></dude-property-reference>
         </div>
     </template>
@@ -114,6 +166,14 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                 "propertyReference": {
                     "type": Object,
                     "value": null
+                },
+
+                /**
+                 *
+                 */
+                "propertyData": {
+                    "type": Object,
+                    "value": []
                 }
             },
 
@@ -124,7 +184,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
              */
             _addReference: function () {
                 this.set("propertyReference", {
-                    "name": "Test add"
+                    "name": "my_reference"
                 });
             },
 

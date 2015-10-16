@@ -13,8 +13,24 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
 -->
 <dom-module id="dude-property-reference">
     <style>
+        :host {
+            --paper-icon-button: {
+                 color: #666666;
+                 padding: 4px;
+                 width: 30px;
+                 height: 30px;
+            };
+        }
+        :host([open]) {
+            width: 100%;
+        }
         #tag {
-
+            padding-left: 10px;
+            background: var(--dude-primary-color);
+            font-family: var(--dude-content-text-font);
+        }
+        #tag span {
+            padding-top: 8px;
         }
     </style>
     <template>
@@ -22,8 +38,8 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
             <paper-icon-button icon="link" on-click="_addReference"></paper-icon-button>
         </template>
         <template is="dom-if" if="[[ reference ]]">
-            <div id="tag">
-                <span>[[ reference.name ]]</span>
+            <div id="tag" class="layout horizontal">
+                <span class="flex">[[ reference.name ]]</span>
                 <paper-icon-button icon="icons:cancel" on-click="_removeReference"></paper-icon-button>
             </div>
         </template>
@@ -51,6 +67,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
              * @private
              */
             _addReference: function () {
+                this.setAttribute("open", "");
                 this.fire("dude-property-reference-add");
             },
 
@@ -61,6 +78,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
              * @private
              */
             _removeReference: function () {
+                this.removeAttribute("open");
                 this.fire("dude-property-reference-remove");
             }
         });

@@ -8,26 +8,72 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
     <title>dude-property Demo</title>
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../../dude-style/dude-style.html">
     <link rel="import" href="../dude-property.html">
+    <style>
+        body {
+            background: #222222;
+        }
+        #inspector {
+            width: 200px;
+            background: #333333;
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
 <template id="demo" is="dom-bind">
-    <dude-property
-            property-name="{{ propertyName }}"
-            property-type="{{ propertyType }}"
-            property-value="{{ propertyValue }}"
-            property-reference="{{ propertyReference }}">
-    </dude-property>
+    <div id="inspector">
+        <dude-property
+                property-name="prout schmalouk"
+                property-type="vec4">
+        </dude-property>
+        <dude-property
+                property-name="position"
+                property-type="vec3"
+                property-value="{{ positionValue }}">
+        </dude-property>
+        <dude-property
+                property-name="speed"
+                property-type="vec2"
+                property-value="{{ speedValue }}"
+                property-reference="{{ speedReference }}">
+        </dude-property>
+        <dude-property
+                property-name="ratio"
+                property-type="number"
+                property-value="{{ ratioValue }}">
+        </dude-property>
+        <dude-property
+                property-name="message"
+                property-type="string"
+                property-value="{{ messageValue }}">
+        </dude-property>
+        <dude-property
+                property-name="type"
+                property-type="choice"
+                property-value="{{ typeValue }}"
+                property-data="{{ typeChoices }}">
+        </dude-property>
+        <dude-property
+                property-name="texture"
+                property-type="resource"
+                property-value="{{ textureValue }}"
+                property-reference="{{ propertyReference }}">
+        </dude-property>
+    </div>
 </template>
 <script>
     var demo = document.querySelector("#demo");
     demo.addEventListener("dom-change", function () {
-        demo.propertyName = "Speed";
-        demo.propertyType = "vec2";
-        demo.set("propertyValue", {
+        demo.set("speedValue", {
             "x": 32,
             "y": 64
         });
+        demo.set("typeValue", "number");
+        demo.set("typeChoices", ["number", "string", "boolean"]);
+//        demo.set("textureValue", null);
+        demo.set("messageValue", "My awesome message!");
     });
 </script>
 </body>
