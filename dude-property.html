@@ -9,6 +9,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
 <link rel="import" href="../paper-menu/paper-menu.html">
 <link rel="import" href="../paper-item/paper-item.html">
 <link rel="import" href="../paper-slider/paper-slider.html">
+<link rel="import" href="../paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../dude-resource/dude-resource.html">
 <link rel="import" href="../iron-flex-layout/classes/iron-flex-layout.html">
 <link rel="import" href="dude-property-reference.html">
@@ -94,50 +95,71 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
     <template>
         <label>[[ propertyName ]]</label>
         <div class="layout horizontal">
-            <iron-pages attr-for-selected="data-type" selected="[[ propertyType ]]" class="layout horizontal flex">
+            <!--<iron-pages attr-for-selected="data-type" selected="[[ propertyType ]]" class="layout horizontal flex">-->
                 <template is="dom-if" if="[[ !propertyReference ]]">
-                    <div data-type="choice" class="layout horizontal flex">
-                        <paper-dropdown-menu no-label-float>
-                            <paper-menu class="dropdown-content" attr-for-selected="name" selected="{{ propertyValue }}">
-                                <template is="dom-repeat" items="[[ propertyChoice ]]">
-                                    <paper-item name="[[ item ]]">[[ item ]]</paper-item>
-                                </template>
-                            </paper-menu>
-                        </paper-dropdown-menu>
-                    </div>
-                    <div data-type="vec4" class="layout horizontal flex">
-                        <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number">
-                        <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number">
-                        <input is="input" value="{{ propertyValue.z::input }}" bind-value="{{ propertyValue.z }}" placeholder="z" class="flex" type="number">
-                        <input is="input" value="{{ propertyValue.w::input }}" bind-value="{{ propertyValue.w }}" placeholder="w" class="flex" type="number">
-                    </div>
-                    <div data-type="vec3" class="layout horizontal flex">
-                        <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number">
-                        <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number">
-                        <input is="input" value="{{ propertyValue.z::input }}" bind-value="{{ propertyValue.z }}" placeholder="z" class="flex" type="number">
-                    </div>
-                    <div data-type="vec2" class="layout horizontal flex">
-                        <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number">
-                        <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number">
-                    </div>
-                    <div data-type="number" class="layout horizontal flex">
-                        <input is="input" value="{{ propertyValue::input }}" bind-value="{{ propertyValue }}" placeholder="value" class="flex" type="number">
-                    </div>
-                    <div data-type="string" class="layout horizontal flex">
-                        <input is="input" value="{{ propertyValue::input }}" bind-value="{{ propertyValue }}" placeholder="value" class="flex" type="text">
-                    </div>
-                    <div data-type="resource" class="layout horizontal flex">
-                        <dude-resource class="flex" resource="{{ propertyValue }}" resources="{{ propertyData }}"></dude-resource>
-                    </div>
-                    <div data-type="range" class="layout horizontal flex">
-                        <paper-slider value="{{ propertyValue }}" class="flex"
-                            min="{{ propertyRange.min }}"
-                            max="{{ propertyRange.max }}"
-                            step="{{ propertyRange.step }}" pin>
-                        </paper-slider>
-                    </div>
+                    <template is="dom-if" if="[[ _isType('choice') ]]" restamp>
+                        <div data-type="choice" class="layout horizontal flex">
+                            <paper-dropdown-menu no-label-float>
+                                <paper-menu class="dropdown-content" attr-for-selected="name" selected="{{ propertyValue }}">
+                                    <template is="dom-repeat" items="[[ propertyChoice ]]">
+                                        <paper-item name="[[ item ]]">[[ item ]]</paper-item>
+                                    </template>
+                                </paper-menu>
+                            </paper-dropdown-menu>
+                        </div>
+                    </template>
+                    <template is="dom-if" if="[[ _isType('vec4') ]]" restamp>
+                        <div class="layout horizontal flex">
+                            <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number">
+                            <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number">
+                            <input is="input" value="{{ propertyValue.z::input }}" bind-value="{{ propertyValue.z }}" placeholder="z" class="flex" type="number">
+                            <input is="input" value="{{ propertyValue.w::input }}" bind-value="{{ propertyValue.w }}" placeholder="w" class="flex" type="number">
+                        </div>
+                    </template>
+                    <template is="dom-if" if="[[ _isType('vec3') ]]" restamp>
+                        <div class="layout horizontal flex">
+                            <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number">
+                            <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number">
+                            <input is="input" value="{{ propertyValue.z::input }}" bind-value="{{ propertyValue.z }}" placeholder="z" class="flex" type="number">
+                        </div>
+                    </template>
+                    <template is="dom-if" if="[[ _isType('vec2') ]]" restamp>
+                        <div class="layout horizontal flex">
+                            <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number">
+                            <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number">
+                        </div>
+                    </template>
+                    <template is="dom-if" if="[[ _isType('number') ]]" restamp>
+                        <div class="layout horizontal flex">
+                            <input is="input" value="{{ propertyValue::input }}" bind-value="{{ propertyValue }}" class="flex" type="number">
+                        </div>
+                    </template>
+                    <template is="dom-if" if="[[ _isType('string') ]]" restamp>
+                        <div class="layout horizontal flex">
+                            <input is="input" value="{{ propertyValue::input }}" bind-value="{{ propertyValue }}" class="flex" type="text">
+                        </div>
+                    </template>
+                    <template is="dom-if" if="[[ _isType('resource') ]]" restamp>
+                        <div class="layout horizontal flex">
+                            <dude-resource class="flex" resource="{{ propertyValue }}" resources="{{ propertyData }}"></dude-resource>
+                        </div>
+                    </template>
+                    <template is="dom-if" if="[[ _isType('range') ]]" restamp>
+                        <div class="layout horizontal flex">
+                            <paper-slider value="{{ propertyValue }}" class="flex"
+                                min="{{ propertyRange.min }}"
+                                max="{{ propertyRange.max }}"
+                                step="{{ propertyRange.step }}" pin>
+                            </paper-slider>
+                        </div>
+                    </template>
+                    <template is="dom-if" if="[[ _isType('boolean') ]]" restamp>
+                        <div class="layout horizontal flex" style="padding-top: 5px; padding-left: 10px">
+                            <paper-toggle-button value="{{ propertyValue }}"></paper-toggle-button>
+                        </div>
+                    </template>
                 </template>
-            </iron-pages>
+            <!--</iron-pages>-->
             <dude-property-reference reference="[[ propertyReference ]]"></dude-property-reference>
         </div>
     </template>
@@ -205,6 +227,10 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                     "type": Object,
                     "value": {min: 1, max: 10, step: 1}
                 }
+            },
+
+            _isType: function (typename) {
+                return this.propertyType === typename;
             },
 
             /**

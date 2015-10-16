@@ -65,7 +65,12 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                 property-name="time (in seconds)"
                 property-type="range"
                 property-value="{{ timeValue }}"
-                property-range="{{ timeRangeConfig }}">
+                property-range="{{ timeRange }}">
+        </dude-property>
+        <dude-property
+                property-name="enable"
+                property-type="boolean"
+                property-value="{{ timeValue }}">
         </dude-property>
     </div>
 </template>
@@ -80,7 +85,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
         demo.set("typeChoices", ["number", "string", "boolean"]);
 //        demo.set("textureValue", null);
         demo.set("messageValue", "My awesome message!");
-        demo.set("timeRangeConfig", {
+        demo.set("timeRange", {
             "min": 1,
             "max": 5,
             "step": 1
