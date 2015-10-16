@@ -1,62 +1,83 @@
 <link rel="import" href="../../paper-button/paper-button.html">
+<link rel="import" href="../../iron-flex-layout/classes/iron-flex-layout.html">
 <dom-module id="demo-inspector">
+    <style>
+        #inspector {
+            width: 700px;
+            background: #333333;
+            padding: 10px;
+        }
+        .column {
+            padding: 20px;
+        }
+        paper-button {
+            font-family: var(--dude-primary-text-font);
+            background: var(--dude-primary-color);
+        }
+    </style>
     <template>
-        <div id="inspector">
+        <div id="inspector" class="layout vertical">
+            <div class="layout horizontal flex">
+                <div class="layout vertical flex column">
+                    <dude-property
+                            property-name="prout schmalouk"
+                            property-type="vec4">
+                    </dude-property>
+                    <dude-property
+                            property-name="position"
+                            property-type="vec3"
+                            property-value="{{ positionValue }}">
+                    </dude-property>
+                    <dude-property
+                            property-name="speed"
+                            property-type="vec2"
+                            property-value="{{ speedValue }}"
+                            property-reference="{{ speedReference }}">
+                    </dude-property>
+                    <dude-property
+                            property-name="ratio"
+                            property-type="number"
+                            property-value="{{ ratioValue }}">
+                    </dude-property>
+                    <dude-property
+                            property-name="message"
+                            property-type="string"
+                            property-value="{{ messageValue }}"
+                            no-reference>
+                    </dude-property>
+                </div>
+                <div class="layout vertical flex column">
+                    <dude-property
+                            property-name="type"
+                            property-type="choice"
+                            property-value="{{ typeValue }}"
+                            property-choice="{{ typeChoices }}">
+                    </dude-property>
+                    <dude-property
+                            property-name="dynamic"
+                            property-type="{{ typeValue }}"
+                            property-value="{{ dynamicValue }}">
+                    </dude-property>
+                    <dude-property
+                            property-name="texture"
+                            property-type="resource"
+                            property-value="{{ textureValue }}"
+                            property-reference="{{ textureReference }}">
+                    </dude-property>
+                    <dude-property
+                            property-name="time (in seconds)"
+                            property-type="range"
+                            property-value="{{ timeValue }}"
+                            property-range="{{ timeRange }}">
+                    </dude-property>
+                    <dude-property
+                            property-name="enable"
+                            property-type="boolean"
+                            property-value="{{ enableValue }}">
+                    </dude-property>
+                </div>
+            </div>
             <paper-button on-click="_showValues">Show values</paper-button>
-            <dude-property
-                    property-name="prout schmalouk"
-                    property-type="vec4">
-            </dude-property>
-            <dude-property
-                    property-name="position"
-                    property-type="vec3"
-                    property-value="{{ positionValue }}">
-            </dude-property>
-            <dude-property
-                    property-name="speed"
-                    property-type="vec2"
-                    property-value="{{ speedValue }}"
-                    property-reference="{{ speedReference }}">
-            </dude-property>
-            <dude-property
-                    property-name="ratio"
-                    property-type="number"
-                    property-value="{{ ratioValue }}">
-            </dude-property>
-            <dude-property
-                    property-name="message"
-                    property-type="string"
-                    property-value="{{ messageValue }}"
-                    no-reference>
-            </dude-property>
-            <dude-property
-                    property-name="type"
-                    property-type="choice"
-                    property-value="{{ typeValue }}"
-                    property-choice="{{ typeChoices }}">
-            </dude-property>
-            <dude-property
-                    property-name="dynamic"
-                    property-type="{{ typeValue }}"
-                    property-value="{{ dynamicValue }}">
-            </dude-property>
-            <dude-property
-                    property-name="texture"
-                    property-type="resource"
-                    property-value="{{ textureValue }}"
-                    property-reference="{{ textureReference }}">
-            </dude-property>
-            <dude-property
-                    property-name="time (in seconds)"
-                    property-type="range"
-                    property-value="{{ timeValue }}"
-                    property-range="{{ timeRange }}">
-            </dude-property>
-            <dude-property
-                    property-name="enable"
-                    property-type="boolean"
-                    property-value="{{ enableValue }}">
-            </dude-property>
         </div>
     </template>
     <script>
@@ -88,11 +109,13 @@
                 console.log(this.typeValue);
             },
             _showValues: function () {
+                console.log("---------------------------------------");
                 console.log("speedReference", this.get("speedReference"));
                 console.log("speedValue", this.get("speedValue"));
                 console.log("messageValue", this.get("messageValue"));
                 console.log("timeValue", this.get("timeValue"));
                 console.log("enableValue", this.get("enableValue"));
+                console.log("---------------------------------------");
             }
         });
     </script>
