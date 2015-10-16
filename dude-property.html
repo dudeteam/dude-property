@@ -163,7 +163,10 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                     </template>
                 </template>
             <!--</iron-pages>-->
-            <dude-property-reference open$="[[ propertyReference ]]" reference="[[ propertyReference ]]"></dude-property-reference>
+            <dude-property-reference hidden$="[[ noReference ]]"
+                                     open$="[[ propertyReference ]]"
+                                     reference="[[ propertyReference ]]">
+            </dude-property-reference>
         </div>
     </template>
     <script>
@@ -177,6 +180,14 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
             },
 
             properties: {
+
+                /**
+                 * Disable reference for this property.
+                 */
+                "noReference": {
+                    "type": "boolean",
+                    "value": false
+                },
 
                 /**
                  *
