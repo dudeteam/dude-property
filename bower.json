@@ -29,7 +29,8 @@
     "dude-style": "~0.0.1",
     "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#~1.0.4",
     "paper-menu": "PolymerElements/paper-menu#~1.1.1",
-    "paper-item": "PolymerElements/paper-item#~1.0.4"
+    "paper-item": "PolymerElements/paper-item#~1.0.4",
+    "paper-slider": "PolymerElements/paper-slider#~1.0.7"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",

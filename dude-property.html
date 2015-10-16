@@ -8,6 +8,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
 <link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../paper-menu/paper-menu.html">
 <link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../paper-slider/paper-slider.html">
 <link rel="import" href="../dude-resource/dude-resource.html">
 <link rel="import" href="../iron-flex-layout/classes/iron-flex-layout.html">
 <link rel="import" href="dude-property-reference.html">
@@ -25,6 +26,12 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
             padding: 10px 0;
             --dude-property-label-color: #888888;
 
+            /* Slider style */
+            --paper-slider-active-color: var(--dude-primary-color);
+            --paper-slider-secondary-color: var(--dude-primary-color);
+            --paper-slider-knob-color: var(--dude-primary-color);
+            --paper-slider-pin-color: var(--dude-primary-color);
+            --paper-slider-font-color: var(--dude-primary-text-color);
             /* Dropdown style */
             --paper-dropdown-menu-input: {
                  font-family: var(--dude-content-text-font);
@@ -92,7 +99,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                     <div data-type="choice" class="layout horizontal flex">
                         <paper-dropdown-menu no-label-float>
                             <paper-menu class="dropdown-content" attr-for-selected="name" selected="{{ propertyValue }}">
-                                <template is="dom-repeat" items="[[ propertyData ]]">
+                                <template is="dom-repeat" items="[[ propertyChoice ]]">
                                     <paper-item name="[[ item ]]">[[ item ]]</paper-item>
                                 </template>
                             </paper-menu>
@@ -121,6 +128,13 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                     </div>
                     <div data-type="resource" class="layout horizontal flex">
                         <dude-resource class="flex" resource="{{ propertyValue }}" resources="{{ propertyData }}"></dude-resource>
+                    </div>
+                    <div data-type="range" class="layout horizontal flex">
+                        <paper-slider value="{{ propertyValue }}" class="flex"
+                            min="{{ propertyRange.min }}"
+                            max="{{ propertyRange.max }}"
+                            step="{{ propertyRange.step }}" pin>
+                        </paper-slider>
                     </div>
                 </template>
             </iron-pages>
@@ -171,9 +185,25 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                 /**
                  *
                  */
-                "propertyData": {
-                    "type": Object,
+                "propertyChoice": {
+                    "type": Array,
                     "value": []
+                },
+
+                /**
+                 *
+                 */
+                "propertyResource": {
+                    "type": Object,
+                    "value": {}
+                },
+
+                /**
+                 *
+                 */
+                "propertyRange": {
+                    "type": Object,
+                    "value": {min: 1, max: 10, step: 1}
                 }
             },
 

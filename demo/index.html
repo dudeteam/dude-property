@@ -53,13 +53,19 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                 property-name="type"
                 property-type="choice"
                 property-value="{{ typeValue }}"
-                property-data="{{ typeChoices }}">
+                property-choice="{{ typeChoices }}">
         </dude-property>
         <dude-property
                 property-name="texture"
                 property-type="resource"
                 property-value="{{ textureValue }}"
                 property-reference="{{ propertyReference }}">
+        </dude-property>
+        <dude-property
+                property-name="time (in seconds)"
+                property-type="range"
+                property-value="{{ timeValue }}"
+                property-range="{{ timeRangeConfig }}">
         </dude-property>
     </div>
 </template>
@@ -74,6 +80,11 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
         demo.set("typeChoices", ["number", "string", "boolean"]);
 //        demo.set("textureValue", null);
         demo.set("messageValue", "My awesome message!");
+        demo.set("timeRangeConfig", {
+            "min": 1,
+            "max": 5,
+            "step": 1
+        });
     });
 </script>
 </body>
