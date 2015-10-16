@@ -91,12 +91,15 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
             background: #444444;
             border-radius: 0;
         }
+        #picker {
+            height: 32px;
+        }
     </style>
     <template>
         <label>[[ propertyName ]]</label>
-        <div class="layout horizontal">
+        <div id="picker" class="layout horizontal">
             <!--<iron-pages attr-for-selected="data-type" selected="[[ propertyType ]]" class="layout horizontal flex">-->
-                <template is="dom-if" if="[[ !propertyReference ]]">
+                <template is="dom-if" if="[[ !propertyReference ]]" restamp>
                     <template is="dom-if" if="[[ _isType('choice') ]]" restamp>
                         <div data-type="choice" class="layout horizontal flex">
                             <paper-dropdown-menu no-label-float>
@@ -160,7 +163,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                     </template>
                 </template>
             <!--</iron-pages>-->
-            <dude-property-reference reference="[[ propertyReference ]]"></dude-property-reference>
+            <dude-property-reference open$="[[ propertyReference ]]" reference="[[ propertyReference ]]"></dude-property-reference>
         </div>
     </template>
     <script>

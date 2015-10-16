@@ -67,7 +67,6 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
              * @private
              */
             _addReference: function () {
-                this.setAttribute("open", "");
                 this.fire("dude-property-reference-add");
             },
 
@@ -78,7 +77,6 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
              * @private
              */
             _removeReference: function () {
-                this.removeAttribute("open");
                 this.fire("dude-property-reference-remove");
             }
         });
