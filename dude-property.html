@@ -99,8 +99,8 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
         <label>[[ propertyName ]]</label>
         <div id="picker" class="layout horizontal">
             <!--<iron-pages attr-for-selected="data-type" selected="[[ propertyType ]]" class="layout horizontal flex">-->
-                <template is="dom-if" if="[[ !propertyReference ]]" restamp>
-                    <template is="dom-if" if="[[ _isType('choice') ]]" restamp>
+                <template is="dom-if" if="{{ !propertyReference }}" restamp>
+                    <template is="dom-if" if="{{ _isType('choice') }}" restamp>
                         <div data-type="choice" class="layout horizontal flex">
                             <paper-dropdown-menu no-label-float>
                                 <paper-menu class="dropdown-content" attr-for-selected="name" selected="{{ propertyValue }}">
@@ -111,7 +111,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                             </paper-dropdown-menu>
                         </div>
                     </template>
-                    <template is="dom-if" if="[[ _isType('vec4') ]]" restamp>
+                    <template is="dom-if" if="{{ _isType('vec4') }}" restamp>
                         <div class="layout horizontal flex">
                             <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number">
                             <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number">
@@ -119,35 +119,35 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                             <input is="input" value="{{ propertyValue.w::input }}" bind-value="{{ propertyValue.w }}" placeholder="w" class="flex" type="number">
                         </div>
                     </template>
-                    <template is="dom-if" if="[[ _isType('vec3') ]]" restamp>
+                    <template is="dom-if" if="{{ _isType('vec3') }}" restamp>
                         <div class="layout horizontal flex">
                             <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number">
                             <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number">
                             <input is="input" value="{{ propertyValue.z::input }}" bind-value="{{ propertyValue.z }}" placeholder="z" class="flex" type="number">
                         </div>
                     </template>
-                    <template is="dom-if" if="[[ _isType('vec2') ]]" restamp>
+                    <template is="dom-if" if="{{ _isType('vec2') }}" restamp>
                         <div class="layout horizontal flex">
                             <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number">
                             <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number">
                         </div>
                     </template>
-                    <template is="dom-if" if="[[ _isType('number') ]]" restamp>
+                    <template is="dom-if" if="{{ _isType('number') }}" restamp>
                         <div class="layout horizontal flex">
                             <input is="input" value="{{ propertyValue::input }}" bind-value="{{ propertyValue }}" class="flex" type="number">
                         </div>
                     </template>
-                    <template is="dom-if" if="[[ _isType('string') ]]" restamp>
+                    <template is="dom-if" if="{{ _isType('string') }}" restamp>
                         <div class="layout horizontal flex">
                             <input is="input" value="{{ propertyValue::input }}" bind-value="{{ propertyValue }}" class="flex" type="text">
                         </div>
                     </template>
-                    <template is="dom-if" if="[[ _isType('resource') ]]" restamp>
+                    <template is="dom-if" if="{{ _isType('resource') }}" restamp>
                         <div class="layout horizontal flex">
                             <dude-resource class="flex" resource="{{ propertyValue }}" resources="{{ propertyData }}"></dude-resource>
                         </div>
                     </template>
-                    <template is="dom-if" if="[[ _isType('range') ]]" restamp>
+                    <template is="dom-if" if="{{ _isType('range') }}" restamp>
                         <div class="layout horizontal flex">
                             <paper-slider value="{{ propertyValue }}" class="flex"
                                 min="{{ propertyRange.min }}"
@@ -156,9 +156,9 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                             </paper-slider>
                         </div>
                     </template>
-                    <template is="dom-if" if="[[ _isType('boolean') ]]" restamp>
+                    <template is="dom-if" if="{{ _isType('boolean') }}" restamp>
                         <div class="layout horizontal flex" style="padding-top: 5px; padding-left: 10px">
-                            <paper-toggle-button value="{{ propertyValue }}"></paper-toggle-button>
+                            <paper-toggle-button id="booleanPicker" on-change="_updateBoolean"></paper-toggle-button>
                         </div>
                     </template>
                 </template>
@@ -190,28 +190,32 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                 },
 
                 /**
-                 *
+                 * Represents the name of this property. It will also be used to display the property label.
                  */
                 "propertyName": {
                     "type": String
                 },
 
                 /**
-                 *
+                 * Represents the type of this property. It will be used to switch to the appropriate picker.
                  */
                 "propertyType": {
                     "type": String
                 },
 
                 /**
-                 *
+                 * Stores the current value of the property. It will be updated by the picker, but also the other
+                 * way around. This value can be null, when there is a reference for example.
                  */
                 "propertyValue": {
-                    "type": Object
+                    "type": Object,
+                    "notify": true,
+                    "observer": "_propertyValueChanged"
                 },
 
                 /**
-                 *
+                 * By default this value is not, otherwise it represents a reference on a variable instead of a direct
+                 * value.
                  */
                 "propertyReference": {
                     "type": Object,
@@ -219,7 +223,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                 },
 
                 /**
-                 *
+                 * This is only used by properties of type "choice". It references all the possible choices.
                  */
                 "propertyChoice": {
                     "type": Array,
@@ -227,7 +231,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                 },
 
                 /**
-                 *
+                 * This is only used by properties of type "resource". It references all the possible resources.
                  */
                 "propertyResource": {
                     "type": Object,
@@ -235,7 +239,8 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                 },
 
                 /**
-                 *
+                 * This is only used by properties of type "range". It configures the slider by given the `min`, `max`
+                 * and `step` values.
                  */
                 "propertyRange": {
                     "type": Object,
@@ -243,6 +248,19 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                 }
             },
 
+            /**
+             * Called when the element is attached to the dom. Checks if there is some property-value related updates
+             * to do during initialization.
+             */
+            attached: function () {
+                this._propertyValueChanged();
+            },
+
+            /**
+             * Checks whether the given type is the same as the property.
+             * @param {String} typename
+             * @private
+             */
             _isType: function (typename) {
                 return this.propertyType === typename;
             },
@@ -265,6 +283,32 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
              */
             _removeReference: function () {
                 this.set("propertyReference", null);
+            },
+
+            /**
+             * Called when the property value changes. It will be used to handle some exceptions depending on the
+             * type of property to update (for example, when bindings doesn't work).
+             * @private
+             */
+            _propertyValueChanged: function () {
+                if (this.get("propertyType") === "boolean") {
+                    var booleanPicker = this.querySelector("#booleanPicker");
+                    if (booleanPicker !== null) {
+                        if (this.get("propertyValue")) {
+                            booleanPicker.setAttribute("checked", "");
+                        } else {
+                            booleanPicker.removeAttribute("checked");
+                        }
+                    }
+                }
+            },
+
+            /**
+             * This updates boolean values by watching paper-toggle-button's "on-change" event.
+             * @private
+             */
+            _updateBoolean: function () {
+                this.set("propertyValue", !this.get("propertyValue"));
             }
         });
     </script>

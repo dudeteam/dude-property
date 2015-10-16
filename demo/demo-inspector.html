@@ -1,0 +1,99 @@
+<link rel="import" href="../../paper-button/paper-button.html">
+<dom-module id="demo-inspector">
+    <template>
+        <div id="inspector">
+            <paper-button on-click="_showValues">Show values</paper-button>
+            <dude-property
+                    property-name="prout schmalouk"
+                    property-type="vec4">
+            </dude-property>
+            <dude-property
+                    property-name="position"
+                    property-type="vec3"
+                    property-value="{{ positionValue }}">
+            </dude-property>
+            <dude-property
+                    property-name="speed"
+                    property-type="vec2"
+                    property-value="{{ speedValue }}"
+                    property-reference="{{ speedReference }}">
+            </dude-property>
+            <dude-property
+                    property-name="ratio"
+                    property-type="number"
+                    property-value="{{ ratioValue }}">
+            </dude-property>
+            <dude-property
+                    property-name="message"
+                    property-type="string"
+                    property-value="{{ messageValue }}"
+                    no-reference>
+            </dude-property>
+            <dude-property
+                    property-name="type"
+                    property-type="choice"
+                    property-value="{{ typeValue }}"
+                    property-choice="{{ typeChoices }}">
+            </dude-property>
+            <dude-property
+                    property-name="dynamic"
+                    property-type="{{ typeValue }}"
+                    property-value="{{ dynamicValue }}">
+            </dude-property>
+            <dude-property
+                    property-name="texture"
+                    property-type="resource"
+                    property-value="{{ textureValue }}"
+                    property-reference="{{ textureReference }}">
+            </dude-property>
+            <dude-property
+                    property-name="time (in seconds)"
+                    property-type="range"
+                    property-value="{{ timeValue }}"
+                    property-range="{{ timeRange }}">
+            </dude-property>
+            <dude-property
+                    property-name="enable"
+                    property-type="boolean"
+                    property-value="{{ enableValue }}">
+            </dude-property>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            is: "demo-inspector",
+            properties: {
+                "typeValue": {
+                    "type": String,
+                    "value": "number",
+                    "observer": "_typeValueChanged"
+                }
+            },
+            ready: function () {
+                this.set("speedValue", {
+                    "x": 32,
+                    "y": 64
+                });
+                this.set("speedReference", {name: "lol"});
+                this.set("typeChoices", ["number", "string", "boolean"]);
+                this.set("messageValue", "My awesome message!");
+                this.set("timeRange", {
+                    "min": 1,
+                    "max": 5,
+                    "step": 1
+                });
+                this.set("enableValue", true);
+            },
+            _typeValueChanged: function () {
+                console.log(this.typeValue);
+            },
+            _showValues: function () {
+                console.log("speedReference", this.get("speedReference"));
+                console.log("speedValue", this.get("speedValue"));
+                console.log("messageValue", this.get("messageValue"));
+                console.log("timeValue", this.get("timeValue"));
+                console.log("enableValue", this.get("enableValue"));
+            }
+        });
+    </script>
+</dom-module>

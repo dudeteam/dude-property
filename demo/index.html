@@ -10,6 +10,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="../../dude-style/dude-style.html">
     <link rel="import" href="../dude-property.html">
+    <link rel="import" href="demo-inspector.html">
     <style>
         body {
             background: #222222;
@@ -22,77 +23,6 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
     </style>
 </head>
 <body>
-<template id="demo" is="dom-bind">
-    <div id="inspector">
-        <dude-property
-                property-name="prout schmalouk"
-                property-type="vec4">
-        </dude-property>
-        <dude-property
-                property-name="position"
-                property-type="vec3"
-                property-value="{{ positionValue }}">
-        </dude-property>
-        <dude-property
-                property-name="speed"
-                property-type="vec2"
-                property-value="{{ speedValue }}"
-                property-reference="{{ speedReference }}">
-        </dude-property>
-        <dude-property
-                property-name="ratio"
-                property-type="number"
-                property-value="{{ ratioValue }}">
-        </dude-property>
-        <dude-property
-                property-name="message"
-                property-type="string"
-                property-value="{{ messageValue }}"
-                no-reference>
-        </dude-property>
-        <dude-property
-                property-name="type"
-                property-type="choice"
-                property-value="{{ typeValue }}"
-                property-choice="{{ typeChoices }}">
-        </dude-property>
-        <dude-property
-                property-name="texture"
-                property-type="resource"
-                property-value="{{ textureValue }}"
-                property-reference="{{ textureReference }}">
-        </dude-property>
-        <dude-property
-                property-name="time (in seconds)"
-                property-type="range"
-                property-value="{{ timeValue }}"
-                property-range="{{ timeRange }}">
-        </dude-property>
-        <dude-property
-                property-name="enable"
-                property-type="boolean"
-                property-value="{{ timeValue }}">
-        </dude-property>
-    </div>
-</template>
-<script>
-    var demo = document.querySelector("#demo");
-    demo.addEventListener("dom-change", function () {
-//        demo.set("speedValue", {
-//            "x": 32,
-//            "y": 64
-//        });
-        demo.set("speedReference", {name: "lol"});
-        demo.set("typeValue", "number");
-        demo.set("typeChoices", ["number", "string", "boolean"]);
-//        demo.set("textureValue", null);
-        demo.set("messageValue", "My awesome message!");
-        demo.set("timeRange", {
-            "min": 1,
-            "max": 5,
-            "step": 1
-        });
-    });
-</script>
+    <demo-inspector></demo-inspector>
 </body>
 </html>
