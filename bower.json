@@ -20,7 +20,7 @@
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#^1.0.0",
-    "dude-resource": "~0.0.2",
+    "dude-resource": "~0.0.4",
     "iron-pages": "PolymerElements/iron-pages#~1.0.3",
     "iron-icons": "PolymerElements/iron-icons#~1.0.4",
     "iron-input": "PolymerElements/iron-input#~1.0.6",
