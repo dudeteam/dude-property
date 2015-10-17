@@ -100,7 +100,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
         <div id="picker" class="layout horizontal">
             <!--<iron-pages attr-for-selected="data-type" selected="[[ propertyType ]]" class="layout horizontal flex">-->
                 <template is="dom-if" if="{{ !propertyReference }}" restamp>
-                    <template is="dom-if" if="{{ _isType('choice') }}" restamp>
+                    <template is="dom-if" if="{{ _isType(propertyType, 'choice') }}" restamp>
                         <div data-type="choice" class="layout horizontal flex">
                             <paper-dropdown-menu no-label-float>
                                 <paper-menu class="dropdown-content" attr-for-selected="name" selected="{{ propertyValue }}">
@@ -111,7 +111,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                             </paper-dropdown-menu>
                         </div>
                     </template>
-                    <template is="dom-if" if="{{ _isType('vec4') }}" restamp>
+                    <template is="dom-if" if="{{ _isType(propertyType, 'vec4') }}" restamp>
                         <div class="layout horizontal flex">
                             <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number">
                             <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number">
@@ -119,35 +119,35 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                             <input is="input" value="{{ propertyValue.w::input }}" bind-value="{{ propertyValue.w }}" placeholder="w" class="flex" type="number">
                         </div>
                     </template>
-                    <template is="dom-if" if="{{ _isType('vec3') }}" restamp>
+                    <template is="dom-if" if="{{ _isType(propertyType, 'vec3') }}" restamp>
                         <div class="layout horizontal flex">
                             <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number">
                             <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number">
                             <input is="input" value="{{ propertyValue.z::input }}" bind-value="{{ propertyValue.z }}" placeholder="z" class="flex" type="number">
                         </div>
                     </template>
-                    <template is="dom-if" if="{{ _isType('vec2') }}" restamp>
+                    <template is="dom-if" if="{{ _isType(propertyType, 'vec2') }}" restamp>
                         <div class="layout horizontal flex">
                             <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number">
                             <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number">
                         </div>
                     </template>
-                    <template is="dom-if" if="{{ _isType('number') }}" restamp>
+                    <template is="dom-if" if="{{ _isType(propertyType, 'number') }}" restamp>
                         <div class="layout horizontal flex">
                             <input is="input" value="{{ propertyValue::input }}" bind-value="{{ propertyValue }}" class="flex" type="number">
                         </div>
                     </template>
-                    <template is="dom-if" if="{{ _isType('string') }}" restamp>
+                    <template is="dom-if" if="{{ _isType(propertyType, 'string') }}" restamp>
                         <div class="layout horizontal flex">
                             <input is="input" value="{{ propertyValue::input }}" bind-value="{{ propertyValue }}" class="flex" type="text">
                         </div>
                     </template>
-                    <template is="dom-if" if="{{ _isType('resource') }}" restamp>
+                    <template is="dom-if" if="{{ _isType(propertyType, 'resource') }}" restamp>
                         <div class="layout horizontal flex">
                             <dude-resource class="flex" resource="{{ propertyValue }}" resources="{{ propertyData }}"></dude-resource>
                         </div>
                     </template>
-                    <template is="dom-if" if="{{ _isType('range') }}" restamp>
+                    <template is="dom-if" if="{{ _isType(propertyType, 'range') }}" restamp>
                         <div class="layout horizontal flex">
                             <paper-slider value="{{ propertyValue }}" class="flex"
                                 min="{{ propertyRange.min }}"
@@ -156,7 +156,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                             </paper-slider>
                         </div>
                     </template>
-                    <template is="dom-if" if="{{ _isType('boolean') }}" restamp>
+                    <template is="dom-if" if="{{ _isType(propertyType, 'boolean') }}" restamp>
                         <div class="layout horizontal flex" style="padding-top: 5px; padding-left: 10px">
                             <paper-toggle-button id="booleanPicker" on-change="_updateBoolean"></paper-toggle-button>
                         </div>
@@ -257,12 +257,14 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
             },
 
             /**
-             * Checks whether the given type is the same as the property.
-             * @param {String} typename
+             * Checks whether the given typeName is the same as the property type.
+             * @param {String} propertyType
+             * @param {String} typeName
+             * @returns {Boolean}
              * @private
              */
-            _isType: function (typename) {
-                return this.propertyType === typename;
+            _isType: function (propertyType, typeName) {
+                return propertyType === typeName;
             },
 
             /**
