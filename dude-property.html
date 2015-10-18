@@ -145,7 +145,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
         </div>
         <dude-popup id="menu">
             <paper-menu class="dropdown-content" attr-for-selected="name" selected="{{ menuItem }}">
-                <paper-item name="addReference">Add reference</paper-item>
+                <!--<paper-item name="addReference">Add reference</paper-item>-->
                 <paper-item name="clear">Clear</paper-item>
             </paper-menu>
         </dude-popup>
@@ -274,6 +274,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
             _menuItemChanged: function () {
                 if (this.menuItem !== null) {
                     console.log("Call " + this.menuItem + "()");
+                    this.menuItem = null;
                     this._closeMenu();
                 }
             },
