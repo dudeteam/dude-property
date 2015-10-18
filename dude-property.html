@@ -52,6 +52,11 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
         input[type="text"]:focus, input[type="number"]:focus {
             border-bottom: 2px solid var(--dude-primary-color);
         }
+        #unknown {
+            font-family: var(--dude-content-text-font);
+            color: var(--dude-content-text-color);
+            padding-top: 8px;
+        }
         #picker {
             height: 32px;
         }
@@ -73,6 +78,9 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
         <label>[[ propertyName ]]</label>
         <div hidden$="[[ propertyReference ]]" id="picker" class="layout horizontal">
             <template is="dom-if" if="{{ !propertyReference }}" restamp>
+                <template is="dom-if" if="{{ _isType(propertyType, 'unknown') }}" restamp>
+                    <div id="unknown" class="layout horizontal flex">(None)</div>
+                </template>
                 <template is="dom-if" if="{{ _isType(propertyType, 'choice') }}" restamp>
                     <div data-type="choice" class="layout horizontal flex">
                         <paper-dropdown-menu label="(None)" no-label-float class="flex">
@@ -135,8 +143,8 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                     </div>
                 </template>
             </template>
-            <template is="dom-if" if="[[ !noReference ]]">
-                <a hidden$="[[ propertyReference ]]" on-click="_openMenu"><i class="fa fa-dot-circle-o"></i></a>
+            <template is="dom-if" if="[[ !propertyReference ]]">
+                <a hidden$="[[ noMenu ]]" on-click="_openMenu"><i class="fa fa-dot-circle-o"></i></a>
             </template>
         </div>
         <div hidden$="[[ !propertyReference ]]" id="tag" class="layout horizontal">
@@ -162,7 +170,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                 /**
                  * Disable reference for this property.
                  */
-                "noReference": {
+                "noMenu": {
                     "type": "boolean",
                     "value": false
                 },
@@ -250,7 +258,10 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
              * @private
              */
             _isType: function (propertyType, typeName) {
-                return propertyType === typeName;
+                if (propertyType === null && typeName === "unknown") {
+                    return true;
+                }
+                return propertyType == typeName;
             },
 
             /**
