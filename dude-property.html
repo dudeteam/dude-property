@@ -144,7 +144,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                     </template>
                     <template is="dom-if" if="{{ _isType(propertyType, 'resource') }}" restamp>
                         <div class="layout horizontal flex">
-                            <dude-resource class="flex" resource="{{ propertyValue }}" resources="{{ propertyData }}"></dude-resource>
+                            <dude-resource class="flex" resource="{{ propertyValue }}" resources="{{ propertyResource }}"></dude-resource>
                         </div>
                     </template>
                     <template is="dom-if" if="{{ _isType(propertyType, 'range') }}" restamp>
@@ -234,8 +234,8 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                  * This is only used by properties of type "resource". It references all the possible resources.
                  */
                 "propertyResource": {
-                    "type": Object,
-                    "value": {}
+                    "type": Array,
+                    "value": []
                 },
 
                 /**
