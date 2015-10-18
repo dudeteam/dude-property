@@ -138,17 +138,16 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
             <template is="dom-if" if="[[ !noReference ]]">
                 <a hidden$="[[ propertyReference ]]" on-click="_openMenu"><i class="fa fa-dot-circle-o"></i></a>
             </template>
-            <!--<dude-property-reference hidden$="[[ noReference ]]"-->
-                                     <!--open$="[[ propertyReference ]]"-->
-                                     <!--reference="[[ propertyReference ]]">-->
-            <!--</dude-property-reference>-->
         </div>
         <div hidden$="[[ !propertyReference ]]" id="tag" class="layout horizontal">
             <span class="flex">[[ propertyReference.name ]]</span>
             <a on-click="_removeReference"><i class="fa fa-times-circle"></i></a>
         </div>
         <dude-popup id="menu">
-            <p>coucou</p>
+            <paper-menu class="dropdown-content" attr-for-selected="name" selected="{{ menuItem }}">
+                <paper-item name="addReference">Add reference</paper-item>
+                <paper-item name="clear">Clear</paper-item>
+            </paper-menu>
         </dude-popup>
     </template>
     <script>
@@ -224,6 +223,12 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                 "propertyRange": {
                     "type": Object,
                     "value": {min: 1, max: 10, step: 1}
+                },
+
+                "menuItem": {
+                    "type": String,
+                    "value": null,
+                    "observer": "_menuItemChanged"
                 }
             },
 
@@ -232,6 +237,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
              * to do during initialization.
              */
             attached: function () {
+                this.keyEventTarget = document.body;
                 this.addOwnKeyBinding("esc", "_closeMenu");
                 this._propertyValueChanged();
             },
@@ -260,6 +266,16 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
              */
             _closeMenu: function () {
                 this.$.menu.close();
+            },
+
+            /**
+             * Called when the menu item changes.
+             */
+            _menuItemChanged: function () {
+                if (this.menuItem !== null) {
+                    console.log("Call " + this.menuItem + "()");
+                    this._closeMenu();
+                }
             },
 
             /**
