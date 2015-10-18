@@ -75,7 +75,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
             <template is="dom-if" if="{{ !propertyReference }}" restamp>
                 <template is="dom-if" if="{{ _isType(propertyType, 'choice') }}" restamp>
                     <div data-type="choice" class="layout horizontal flex">
-                        <paper-dropdown-menu no-label-float class="flex">
+                        <paper-dropdown-menu label="(None)" no-label-float class="flex">
                             <paper-menu class="dropdown-content" attr-for-selected="name" selected="{{ propertyValue }}">
                                 <template is="dom-repeat" items="[[ propertyChoice ]]">
                                     <paper-item name="[[ item ]]">[[ item ]]</paper-item>
