@@ -2,9 +2,8 @@
 Copyright (c) 2015 DudeTeam. All rights reserved.
 -->
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../iron-pages/iron-pages.html">
 <link rel="import" href="../iron-input/iron-input.html">
-<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
 <link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../paper-menu/paper-menu.html">
 <link rel="import" href="../paper-item/paper-item.html">
@@ -12,7 +11,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
 <link rel="import" href="../paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../dude-resource/dude-resource.html">
 <link rel="import" href="../iron-flex-layout/classes/iron-flex-layout.html">
-<link rel="import" href="dude-property-reference.html">
+<link rel="import" href="../dude-popup/dude-popup.html">
 <!--
 `dude-property` A generic picker which adapts automatically according to the type of the given value.
 
@@ -25,37 +24,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
         :host {
             display: block;
             padding: 10px 0;
-            --dude-property-label-color: #888888;
-
-            /* Slider style */
-            --paper-slider-active-color: var(--dude-primary-color);
-            --paper-slider-secondary-color: var(--dude-primary-color);
-            --paper-slider-knob-color: var(--dude-primary-color);
-            --paper-slider-pin-color: var(--dude-primary-color);
-            --paper-slider-font-color: var(--dude-primary-text-color);
-            /* Dropdown style */
-            --paper-dropdown-menu-input: {
-                 font-family: var(--dude-content-text-font);
-             };
-            --paper-input-container-input-color: var(--dude-content-text-color);
-            --paper-item: {
-                 color: var(--dude-content-text-color);
-                 font-weight: normal;
-                font-family: var(--dude-content-text-font);
-            };
-            --paper-menu: {
-                background: var(--dude-primary-background-color);
-            };
-            --paper-dropdown-menu-button: {
-                padding: 0;
-            };
-            --paper-dropdown-menu-ripple: {
-                top: 0;
-                right: 0;
-                bottom: 6px;
-                left: 0;
-            };
-            --default-primary-color: var(--dude-primary-color);
+            --dude-property-label-color: var(--dude-secondary-text-color);
         }
 
         label {
@@ -83,101 +52,111 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
         input[type="text"]:focus, input[type="number"]:focus {
             border-bottom: 2px solid var(--dude-primary-color);
         }
-
-        paper-button {
-            text-transform: none;
-            text-align: left;
-            margin: 0;
-            background: #444444;
-            border-radius: 0;
-        }
         #picker {
             height: 32px;
+        }
+        a > i {
+            padding: 8px;
+            color: var(--dude-secondary-text-color);
+            cursor: pointer;
+        }
+        #tag {
+            padding-left: 10px;
+            background: var(--dude-primary-color);
+            font-family: var(--dude-content-text-font);
+        }
+        #tag span {
+            padding-top: 8px;
         }
     </style>
     <template>
         <label>[[ propertyName ]]</label>
-        <div id="picker" class="layout horizontal">
-            <!--<iron-pages attr-for-selected="data-type" selected="[[ propertyType ]]" class="layout horizontal flex">-->
-                <template is="dom-if" if="{{ !propertyReference }}" restamp>
-                    <template is="dom-if" if="{{ _isType(propertyType, 'choice') }}" restamp>
-                        <div data-type="choice" class="layout horizontal flex">
-                            <paper-dropdown-menu no-label-float>
-                                <paper-menu class="dropdown-content" attr-for-selected="name" selected="{{ propertyValue }}">
-                                    <template is="dom-repeat" items="[[ propertyChoice ]]">
-                                        <paper-item name="[[ item ]]">[[ item ]]</paper-item>
-                                    </template>
-                                </paper-menu>
-                            </paper-dropdown-menu>
-                        </div>
-                    </template>
-                    <template is="dom-if" if="{{ _isType(propertyType, 'vec4') }}" restamp>
-                        <div class="layout horizontal flex">
-                            <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number">
-                            <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number">
-                            <input is="input" value="{{ propertyValue.z::input }}" bind-value="{{ propertyValue.z }}" placeholder="z" class="flex" type="number">
-                            <input is="input" value="{{ propertyValue.w::input }}" bind-value="{{ propertyValue.w }}" placeholder="w" class="flex" type="number">
-                        </div>
-                    </template>
-                    <template is="dom-if" if="{{ _isType(propertyType, 'vec3') }}" restamp>
-                        <div class="layout horizontal flex">
-                            <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number">
-                            <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number">
-                            <input is="input" value="{{ propertyValue.z::input }}" bind-value="{{ propertyValue.z }}" placeholder="z" class="flex" type="number">
-                        </div>
-                    </template>
-                    <template is="dom-if" if="{{ _isType(propertyType, 'vec2') }}" restamp>
-                        <div class="layout horizontal flex">
-                            <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number">
-                            <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number">
-                        </div>
-                    </template>
-                    <template is="dom-if" if="{{ _isType(propertyType, 'number') }}" restamp>
-                        <div class="layout horizontal flex">
-                            <input is="input" value="{{ propertyValue::input }}" bind-value="{{ propertyValue }}" class="flex" type="number">
-                        </div>
-                    </template>
-                    <template is="dom-if" if="{{ _isType(propertyType, 'string') }}" restamp>
-                        <div class="layout horizontal flex">
-                            <input is="input" value="{{ propertyValue::input }}" bind-value="{{ propertyValue }}" class="flex" type="text">
-                        </div>
-                    </template>
-                    <template is="dom-if" if="{{ _isType(propertyType, 'resource') }}" restamp>
-                        <div class="layout horizontal flex">
-                            <dude-resource class="flex" resource="{{ propertyValue }}" resources="{{ propertyResource }}"></dude-resource>
-                        </div>
-                    </template>
-                    <template is="dom-if" if="{{ _isType(propertyType, 'range') }}" restamp>
-                        <div class="layout horizontal flex">
-                            <paper-slider value="{{ propertyValue }}" class="flex"
-                                min="{{ propertyRange.min }}"
-                                max="{{ propertyRange.max }}"
-                                step="{{ propertyRange.step }}" pin>
-                            </paper-slider>
-                        </div>
-                    </template>
-                    <template is="dom-if" if="{{ _isType(propertyType, 'boolean') }}" restamp>
-                        <div class="layout horizontal flex" style="padding-top: 5px; padding-left: 10px">
-                            <paper-toggle-button id="booleanPicker" on-change="_updateBoolean"></paper-toggle-button>
-                        </div>
-                    </template>
+        <div hidden$="[[ propertyReference ]]" id="picker" class="layout horizontal">
+            <template is="dom-if" if="{{ !propertyReference }}" restamp>
+                <template is="dom-if" if="{{ _isType(propertyType, 'choice') }}" restamp>
+                    <div data-type="choice" class="layout horizontal flex">
+                        <paper-dropdown-menu no-label-float class="flex">
+                            <paper-menu class="dropdown-content" attr-for-selected="name" selected="{{ propertyValue }}">
+                                <template is="dom-repeat" items="[[ propertyChoice ]]">
+                                    <paper-item name="[[ item ]]">[[ item ]]</paper-item>
+                                </template>
+                            </paper-menu>
+                        </paper-dropdown-menu>
+                    </div>
                 </template>
-            <!--</iron-pages>-->
-            <dude-property-reference hidden$="[[ noReference ]]"
-                                     open$="[[ propertyReference ]]"
-                                     reference="[[ propertyReference ]]">
-            </dude-property-reference>
+                <template is="dom-if" if="{{ _isType(propertyType, 'vec4') }}" restamp>
+                    <div class="layout horizontal flex">
+                        <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number">
+                        <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number">
+                        <input is="input" value="{{ propertyValue.z::input }}" bind-value="{{ propertyValue.z }}" placeholder="z" class="flex" type="number">
+                        <input is="input" value="{{ propertyValue.w::input }}" bind-value="{{ propertyValue.w }}" placeholder="w" class="flex" type="number">
+                    </div>
+                </template>
+                <template is="dom-if" if="{{ _isType(propertyType, 'vec3') }}" restamp>
+                    <div class="layout horizontal flex">
+                        <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number">
+                        <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number">
+                        <input is="input" value="{{ propertyValue.z::input }}" bind-value="{{ propertyValue.z }}" placeholder="z" class="flex" type="number">
+                    </div>
+                </template>
+                <template is="dom-if" if="{{ _isType(propertyType, 'vec2') }}" restamp>
+                    <div class="layout horizontal flex">
+                        <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number">
+                        <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number">
+                    </div>
+                </template>
+                <template is="dom-if" if="{{ _isType(propertyType, 'number') }}" restamp>
+                    <div class="layout horizontal flex">
+                        <input is="input" value="{{ propertyValue::input }}" bind-value="{{ propertyValue }}" class="flex" type="number" placeholder="(None)">
+                    </div>
+                </template>
+                <template is="dom-if" if="{{ _isType(propertyType, 'string') }}" restamp>
+                    <div class="layout horizontal flex">
+                        <input is="input" value="{{ propertyValue::input }}" bind-value="{{ propertyValue }}" class="flex" type="text" placeholder="(None)">
+                    </div>
+                </template>
+                <template is="dom-if" if="{{ _isType(propertyType, 'resource') }}" restamp>
+                    <div class="layout horizontal flex">
+                        <dude-resource class="flex" resource="{{ propertyValue }}" resources="{{ propertyResource }}"></dude-resource>
+                    </div>
+                </template>
+                <template is="dom-if" if="{{ _isType(propertyType, 'range') }}" restamp>
+                    <div class="layout horizontal flex">
+                        <paper-slider value="{{ propertyValue }}" class="flex"
+                            min="{{ propertyRange.min }}"
+                            max="{{ propertyRange.max }}"
+                            step="{{ propertyRange.step }}" pin>
+                        </paper-slider>
+                    </div>
+                </template>
+                <template is="dom-if" if="{{ _isType(propertyType, 'boolean') }}" restamp>
+                    <div class="layout horizontal flex" style="padding-top: 5px; padding-left: 10px">
+                        <paper-toggle-button id="booleanPicker" on-change="_updateBoolean"></paper-toggle-button>
+                    </div>
+                </template>
+            </template>
+            <template is="dom-if" if="[[ !noReference ]]">
+                <a hidden$="[[ propertyReference ]]" on-click="_openMenu"><i class="fa fa-dot-circle-o"></i></a>
+            </template>
+            <!--<dude-property-reference hidden$="[[ noReference ]]"-->
+                                     <!--open$="[[ propertyReference ]]"-->
+                                     <!--reference="[[ propertyReference ]]">-->
+            <!--</dude-property-reference>-->
         </div>
+        <div hidden$="[[ !propertyReference ]]" id="tag" class="layout horizontal">
+            <span class="flex">[[ propertyReference.name ]]</span>
+            <a on-click="_removeReference"><i class="fa fa-times-circle"></i></a>
+        </div>
+        <dude-popup id="menu">
+            <p>coucou</p>
+        </dude-popup>
     </template>
     <script>
         Polymer({
 
             is: "dude-property",
 
-            listeners: {
-                "dude-property-reference-add": "_addReference",
-                "dude-property-reference-remove": "_removeReference"
-            },
+            behaviors: [Polymer.IronA11yKeysBehavior],
 
             properties: {
 
@@ -253,6 +232,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
              * to do during initialization.
              */
             attached: function () {
+                this.addOwnKeyBinding("esc", "_closeMenu");
                 this._propertyValueChanged();
             },
 
@@ -268,11 +248,27 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
             },
 
             /**
+             * Opens a menu to perform actions on the property.
+             * @param {Object} e Contains event information
+             */
+            _openMenu: function (e) {
+                this.$.menu.open(e.x, e.y);
+            },
+
+            /**
+             * Closes the menu.
+             */
+            _closeMenu: function () {
+                this.$.menu.close();
+            },
+
+            /**
              * Called when adding a dude property reference
              * @delegate
              * @private
              */
             _addReference: function () {
+                this.fire("dude-property-add-reference");
                 this.set("propertyReference", {
                     "name": "my_reference"
                 });
@@ -284,6 +280,9 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
              * @private
              */
             _removeReference: function () {
+                this.fire("dude-property-remove-reference", {
+                    reference: this.propertyReference
+                });
                 this.set("propertyReference", null);
             },
 
