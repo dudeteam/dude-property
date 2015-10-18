@@ -273,7 +273,11 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
              */
             _menuItemChanged: function () {
                 if (this.menuItem !== null) {
-                    console.log("Call " + this.menuItem + "()");
+                    if (this.menuItem === "clear") {
+                        this.propertyValue = null;
+                    } else if (this.menuItem === "addReference") {
+                        console.log("Add reference...");
+                    }
                     this.menuItem = null;
                     this._closeMenu();
                 }
