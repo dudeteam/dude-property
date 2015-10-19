@@ -62,7 +62,7 @@
                             property-name="texture"
                             property-type="resource"
                             property-value="{{ textureValue }}"
-                            property-reference="{{ textureReference }}">
+                            property-resource="{{ resourceList }}">
                     </dude-property>
                     <dude-property
                             property-name="time (in seconds)"
@@ -104,6 +104,12 @@
                     "step": 1
                 });
                 this.set("enableValue", true);
+                this.set("resourceList", [
+                    {item: {name: "test.png", icon: "fa fa-file-image-o", data: "test.png"}},
+                    {item: {name: "test.mp3", icon: "fa fa-file-audio-o", data: "test.mp3"}},
+                    {item: {name: "intro.mp3",icon: "fa fa-file-audio-o",  data: "intro.mp3"}},
+                    {item: {name: "Another file.mp3",icon: "fa fa-file-audio-o",  data: "Another file.mp3"}}
+                ]);
             },
             _typeValueChanged: function () {
                 console.log(this.typeValue);

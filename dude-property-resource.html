@@ -1,0 +1,105 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
+<link rel="import" href="../dude-hierarchy/dude-hierarchy.html">
+<link rel="import" href="../dude-popup/dude-popup.html">
+<dom-module id="dude-property-resource">
+    <style>
+        #button {
+            background: #444444;
+            width: 100%;
+            font-family: var(--dude-primary-text-font);
+            color: var(--dude-content-text-color);
+            border: none;
+            padding: 8px;
+            margin: 0;
+        }
+        #popup dude-hierarchy {
+            width: 300px;
+            max-width: 100%;
+            background: var(--dude-secondary-background-color);
+            box-shadow: 0 3px 10px var(--dude-primary-background-color);
+            padding: 5px;
+        }
+    </style>
+    <template>
+        <paper-button id="button" class="layout horizontal" on-click="_openResources">
+            <i class="fa fa-file-o"></i>
+            <span hidden$="[[ resource ]]" class="flex">(None)</span>
+            <span hidden$="[[ !resource ]]" class="flex">[[ resource.name ]]</span>
+        </paper-button>
+        <dude-popup id="popup">
+            <dude-hierarchy id="hierarchy"
+                            items="{{ resources }}"
+                            placeholder="Search resources..."
+                            on-dude-hierarchy-item-submit="_selectResource">
+            </dude-hierarchy>
+        </dude-popup>
+    </template>
+    <script>
+        Polymer({
+            is: "dude-property-resource",
+
+            behaviors: [Polymer.IronA11yKeysBehavior],
+
+            properties: {
+                resource: {
+                    type: Object,
+                    value: null,
+                    notify: true
+                },
+                resources: {
+                    type: Array,
+                    value: []
+                }
+            },
+
+            ready: function () {
+                this.keyEventTarget = document.body;
+                this.addOwnKeyBinding("up", "_up");
+                this.addOwnKeyBinding("down", "_down");
+                this.addOwnKeyBinding("right", "_right");
+                this.addOwnKeyBinding("left", "_left");
+                this.addOwnKeyBinding("enter", "_submit");
+                this.addOwnKeyBinding("esc", "_closeResources");
+            },
+
+            /**
+             * Open the resources dialog.
+             * @param e
+             * @private
+             */
+            _openResources: function (e) {
+                this.$.popup.open(e.x, e.y);
+                this.$.hierarchy.focus();
+            },
+
+            _closeResources: function () {
+                this.$.popup.close();
+            },
+            _up: function () {
+                this.$.hierarchy.moveUp();
+            },
+
+            _down: function () {
+                this.$.hierarchy.moveDown();
+            },
+
+            _right: function () {
+                this.$.hierarchy.moveRight();
+            },
+
+            _left: function () {
+                this.$.hierarchy.moveLeft();
+            },
+
+            _submit: function () {
+                this.$.hierarchy.submit();
+                this.$.popup.close();
+            },
+
+            _selectResource: function (e) {
+                this.resource = e.detail.item;
+            }
+        });
+    </script>
+</dom-module>

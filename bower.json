@@ -24,13 +24,14 @@
     "iron-pages": "PolymerElements/iron-pages#~1.0.3",
     "iron-input": "PolymerElements/iron-input#~1.0.6",
     "paper-input": "PolymerElements/paper-input#~1.0.15",
-    "dude-style": "~0.0.1",
+    "dude-style": "~0.0.3",
     "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#~1.0.4",
     "paper-menu": "PolymerElements/paper-menu#~1.1.1",
     "paper-item": "PolymerElements/paper-item#~1.0.4",
     "paper-slider": "PolymerElements/paper-slider#~1.0.7",
     "paper-toggle-button": "PolymerElements/paper-toggle-button#~1.0.11",
-    "dude-popup": "*"
+    "dude-popup": "*",
+    "dude-hierarchy": "~0.0.9"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",

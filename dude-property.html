@@ -12,6 +12,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
 <link rel="import" href="../dude-resource/dude-resource.html">
 <link rel="import" href="../iron-flex-layout/classes/iron-flex-layout.html">
 <link rel="import" href="../dude-popup/dude-popup.html">
+<link rel="import" href="dude-property-resource.html">
 <!--
 `dude-property` A generic picker which adapts automatically according to the type of the given value.
 
@@ -52,6 +53,21 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
         input[type="text"]:focus, input[type="number"]:focus {
             border-bottom: 2px solid var(--dude-primary-color);
         }
+        input::-webkit-input-placeholder {
+            color: var(--dude-secondary-text-color);
+        }
+        input:-moz-placeholder {
+            /* FF 4-18 */
+            color: var(--dude-secondary-text-color);
+        }
+        input::-moz-placeholder {
+            /* FF 19+ */
+            color: var(--dude-secondary-text-color);
+        }
+        input:-ms-input-placeholder {
+            /* IE 10+ */
+            color: var(--dude-secondary-text-color);
+        }
         #unknown {
             font-family: var(--dude-content-text-font);
             color: var(--dude-content-text-color);
@@ -72,6 +88,10 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
         }
         #tag span {
             padding-top: 8px;
+        }
+        #menu paper-menu {
+            background: var(--dude-secondary-background-color);
+            box-shadow: 0 3px 10px var(--dude-primary-background-color);
         }
     </style>
     <template>
@@ -125,7 +145,10 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                 </template>
                 <template is="dom-if" if="{{ _isType(propertyType, 'resource') }}" restamp>
                     <div class="layout horizontal flex">
-                        <dude-resource class="flex" resource="{{ propertyValue }}" resources="{{ propertyResource }}"></dude-resource>
+                        <dude-property-resource class="flex"
+                                                resource="{{ propertyValue }}"
+                                                resources="{{ propertyResource }}">
+                        </dude-property-resource>
                     </div>
                 </template>
                 <template is="dom-if" if="{{ _isType(propertyType, 'range') }}" restamp>
@@ -153,7 +176,6 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
         </div>
         <dude-popup id="menu">
             <paper-menu class="dropdown-content" attr-for-selected="name" selected="{{ menuItem }}">
-                <!--<paper-item name="addReference">Add reference</paper-item>-->
                 <paper-item name="clear">Clear</paper-item>
             </paper-menu>
         </dude-popup>
