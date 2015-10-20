@@ -23,7 +23,7 @@
     </style>
     <template>
         <paper-button id="button" class="layout horizontal" on-click="_openResources">
-            <i class="fa fa-file-o"></i>
+            <i class$="[[ resource.icon ]]"></i>
             <span hidden$="[[ resource ]]" class="flex">(None)</span>
             <span hidden$="[[ !resource ]]" class="flex">[[ resource.name ]]</span>
         </paper-button>
@@ -76,6 +76,7 @@
             _closeResources: function () {
                 this.$.popup.close();
             },
+
             _up: function () {
                 this.$.hierarchy.moveUp();
             },
@@ -99,6 +100,7 @@
 
             _selectResource: function (e) {
                 this.resource = e.detail.item;
+                this.$.popup.close();
             }
         });
     </script>
