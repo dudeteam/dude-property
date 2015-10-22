@@ -4,7 +4,7 @@
 <link rel="import" href="../dude-popup/dude-popup.html">
 <dom-module id="dude-property-resource">
     <style>
-        #button {
+        #openButton {
             background: #444444;
             width: 100%;
             font-family: var(--dude-primary-text-font);
@@ -13,6 +13,7 @@
             padding: 8px;
             margin: 0;
         }
+
         #popup dude-hierarchy {
             width: 300px;
             max-width: 100%;
@@ -22,7 +23,7 @@
         }
     </style>
     <template>
-        <paper-button id="button" class="layout horizontal" on-click="_openResources">
+        <paper-button id="openButton" class="layout horizontal" on-click="_openResources">
             <i class$="[[ resource.icon ]]"></i>
             <span hidden$="[[ resource ]]" class="flex">(None)</span>
             <span hidden$="[[ !resource ]]" class="flex">[[ resource.name ]]</span>
@@ -31,7 +32,9 @@
             <dude-hierarchy id="hierarchy"
                             items="{{ resources }}"
                             placeholder="Search resources..."
-                            on-dude-hierarchy-item-submit="_selectResource">
+                            editable
+                            on-dude-hierarchy-item-submit="_selectResource"
+                            on-dude-hierarchy-add-item="_addResource">
             </dude-hierarchy>
         </dude-popup>
     </template>
@@ -42,17 +45,28 @@
             behaviors: [Polymer.IronA11yKeysBehavior],
 
             properties: {
-                resource: {
-                    type: Object,
-                    value: null,
-                    notify: true
+                /**
+                 * The current selected resource
+                 */
+                "resource": {
+                    "type": Object,
+                    "value": null,
+                    "notify": true
                 },
-                resources: {
-                    type: Array,
-                    value: []
+
+                /**
+                 * The list of resources
+                 */
+                "resources": {
+                    "type": Array,
+                    "value": []
                 }
             },
 
+            /**
+             * Called when the dude property resource is ready
+             * @delegate
+             */
             ready: function () {
                 this.keyEventTarget = document.body;
                 this.addOwnKeyBinding("up", "_up");
@@ -64,8 +78,12 @@
             },
 
             /**
+             * Called when clicking on the resource button
              * Open the resources dialog.
-             * @param e
+             * @param {CustomEvent} e
+             * @param {Number} e.x
+             * @param {Number} e.y
+             * @delegate
              * @private
              */
             _openResources: function (e) {
@@ -73,6 +91,12 @@
                 this.$.hierarchy.focus();
             },
 
+            /**
+             * Called when pressing escape
+             * Closes the resource popup
+             * @delegate
+             * @private
+             */
             _closeResources: function () {
                 this.$.popup.close();
             },
@@ -98,9 +122,24 @@
                 this.$.popup.close();
             },
 
+            /**
+             * Called when a resource is selected
+             * @param {CustomEvent} e
+             * @delegate
+             * @private
+             */
             _selectResource: function (e) {
                 this.resource = e.detail.item;
                 this.$.popup.close();
+            },
+
+            /**
+             * Called when clicking on add resource
+             * @delegate
+             * @private
+             */
+            _addResource: function () {
+                this.fire("dude-property-add-resource");
             }
         });
     </script>

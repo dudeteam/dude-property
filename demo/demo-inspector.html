@@ -20,7 +20,7 @@
             <div class="layout horizontal flex">
                 <div class="layout vertical flex column">
                     <dude-property
-                            property-name="prout schmalouk"
+                            property-name="color"
                             property-type="vec4">
                     </dude-property>
                     <dude-property
@@ -62,7 +62,7 @@
                             property-name="texture"
                             property-type="resource"
                             property-value="{{ textureValue }}"
-                            property-resource="{{ resourceList }}">
+                            property-resources="{{ textures }}">
                     </dude-property>
                     <dude-property
                             property-name="time (in seconds)"
@@ -83,6 +83,7 @@
     <script>
         Polymer({
             is: "demo-inspector",
+
             properties: {
                 "typeValue": {
                     "type": String,
@@ -90,6 +91,7 @@
                     "observer": "_typeValueChanged"
                 }
             },
+
             ready: function () {
                 this.set("speedValue", {
                     "x": 32,
@@ -104,16 +106,18 @@
                     "step": 1
                 });
                 this.set("enableValue", true);
-                this.set("resourceList", [
+                this.set("textures", [
                     {item: {name: "test.png", icon: "fa fa-file-image-o", data: "test.png"}},
                     {item: {name: "test.mp3", icon: "fa fa-file-audio-o", data: "test.mp3"}},
                     {item: {name: "intro.mp3",icon: "fa fa-file-audio-o",  data: "intro.mp3"}},
                     {item: {name: "Another file.mp3",icon: "fa fa-file-audio-o",  data: "Another file.mp3"}}
                 ]);
             },
+
             _typeValueChanged: function () {
                 console.log(this.typeValue);
             },
+
             _showValues: function () {
                 console.log("---------------------------------------");
                 console.log("speedReference", this.get("speedReference"));
