@@ -21,6 +21,39 @@
             box-shadow: 0 3px 10px var(--dude-primary-background-color);
             padding: 5px;
         }
+
+        /**
+        Find a proper way to handle screen dimensions
+        Popup must not overflow the screen
+        */
+
+        #popup dude-hierarchy {
+            max-height: 400px;
+        }
+
+        @media (max-height: 400px) {
+            #popup dude-hierarchy {
+                max-height: 200px;
+            }
+        }
+
+        @media (min-height: 600px) and (max-height: 720px) {
+            #popup dude-hierarchy {
+                max-height: 400px;
+            }
+        }
+
+        @media (min-height: 720px) and (max-height: 1080px) {
+            #popup dude-hierarchy {
+                max-height: 700px;
+            }
+        }
+
+        @media (min-height: 1080px) {
+            #popup dude-hierarchy {
+                max-height: 1000px;
+            }
+        }
     </style>
     <template>
         <paper-button id="openButton" class="layout horizontal" on-click="_openResources">
