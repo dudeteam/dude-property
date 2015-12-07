@@ -73,7 +73,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
             padding-top: 8px;
         }
         #picker {
-            height: 32px;
+            /*height: 32px;*/
         }
         a > i {
             padding: 8px;
@@ -91,6 +91,12 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
         #menu paper-menu {
             background: var(--dude-secondary-background-color);
             box-shadow: 0 3px 10px var(--dude-primary-background-color);
+        }
+        #transformRows {
+            display: block;
+        }
+        .transform-row {
+            padding: 10px 0;
         }
     </style>
     <template>
@@ -124,6 +130,25 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                         <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number">
                         <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number">
                         <input is="input" value="{{ propertyValue.z::input }}" bind-value="{{ propertyValue.z }}" placeholder="z" class="flex" type="number">
+                    </div>
+                </template>
+                <template is="dom-if" if="{{ _isType(propertyType, 'transform') }}" restamp>
+                    <div id="transformRows" class="flex">
+                        <div class="transform-row layout horizontal flex">
+                            <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.position.x }}" placeholder="x" class="flex" type="number">
+                            <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.position.y }}" placeholder="y" class="flex" type="number">
+                            <input is="input" value="{{ propertyValue.z::input }}" bind-value="{{ propertyValue.position.z }}" placeholder="z" class="flex" type="number">
+                        </div>
+                        <div class="transform-row layout horizontal flex">
+                            <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.rotation.x }}" placeholder="rx" class="flex" type="number">
+                            <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.rotation.y }}" placeholder="ry" class="flex" type="number">
+                            <input is="input" value="{{ propertyValue.z::input }}" bind-value="{{ propertyValue.rotation.z }}" placeholder="rz" class="flex" type="number">
+                        </div>
+                        <div class="transform-row layout horizontal flex">
+                            <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.scale.x }}" placeholder="sx" class="flex" type="number">
+                            <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.scale.y }}" placeholder="sy" class="flex" type="number">
+                            <input is="input" value="{{ propertyValue.z::input }}" bind-value="{{ propertyValue.scale.z }}" placeholder="sz" class="flex" type="number">
+                        </div>
                     </div>
                 </template>
                 <template is="dom-if" if="{{ _isType(propertyType, 'vec2') }}" restamp>
