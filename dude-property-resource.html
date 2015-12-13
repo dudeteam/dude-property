@@ -66,9 +66,7 @@
             <dude-hierarchy id="hierarchy"
                             items="{{ resources }}"
                             placeholder="Search resources..."
-                            editable
                             on-dude-hierarchy-item-submit="_selectResource"
-                            on-dude-hierarchy-add-item="_addResource"
                             on-dude-hierarchy-blur="_closeResources">
             </dude-hierarchy>
         </dude-popup>
@@ -140,16 +138,8 @@
             _selectResource: function (e) {
                 this.resource = e.detail.item;
                 this.$.popup.close();
-            },
-
-            /**
-             * Called when clicking on add resource
-             * @delegate
-             * @private
-             */
-            _addResource: function () {
-                this.fire("dude-property-add-resource");
             }
+
         });
     </script>
 </dom-module>
