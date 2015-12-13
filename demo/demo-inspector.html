@@ -2,17 +2,19 @@
 <link rel="import" href="../../iron-flex-layout/classes/iron-flex-layout.html">
 <dom-module id="demo-inspector">
     <style>
+        :host {
+            @apply(--layout-fit);
+            background: var(--dude-primary-background-color);
+        }
         #inspector {
             width: 700px;
-            background: #333333;
+            background: var(--dude-secondary-background-color);
             padding: 10px;
+            margin: 20px;
+            border-radius: 5px;
         }
         .column {
             padding: 20px;
-        }
-        paper-button {
-            font-family: var(--dude-primary-text-font);
-            background: var(--dude-primary-color);
         }
     </style>
     <template>

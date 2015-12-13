@@ -5,7 +5,7 @@
 <dom-module id="dude-property-resource">
     <style>
         #openButton {
-            background: #444444;
+            background: var(--dude-primary-background-color);
             width: 100%;
             font-family: var(--dude-primary-text-font);
             color: var(--dude-content-text-color);
@@ -15,11 +15,12 @@
         }
 
         #popup dude-hierarchy {
+            border-radius: 5px;
+            padding: 10px;
             width: 300px;
             max-width: 100%;
-            background: var(--dude-secondary-background-color);
-            box-shadow: 0 3px 10px var(--dude-primary-background-color);
-            padding: 5px;
+            background: var(--dude-primary-background-color);
+            box-shadow: 0 3px 10px var(--dude-secondary-background-color);
         }
 
         /**
@@ -67,7 +68,8 @@
                             placeholder="Search resources..."
                             editable
                             on-dude-hierarchy-item-submit="_selectResource"
-                            on-dude-hierarchy-add-item="_addResource">
+                            on-dude-hierarchy-add-item="_addResource"
+                            on-dude-hierarchy-blur="_closeResources">
             </dude-hierarchy>
         </dude-popup>
     </template>
@@ -101,12 +103,7 @@
              * @delegate
              */
             ready: function () {
-                this.keyEventTarget = document.body;
-                this.addOwnKeyBinding("up", "_up");
-                this.addOwnKeyBinding("down", "_down");
-                this.addOwnKeyBinding("right", "_right");
-                this.addOwnKeyBinding("left", "_left");
-                this.addOwnKeyBinding("enter", "_submit");
+                this.keyEventTarget = this.$['popup'];
                 this.addOwnKeyBinding("esc", "_closeResources");
             },
 
@@ -131,27 +128,6 @@
              * @private
              */
             _closeResources: function () {
-                this.$.popup.close();
-            },
-
-            _up: function () {
-                this.$.hierarchy.moveUp();
-            },
-
-            _down: function () {
-                this.$.hierarchy.moveDown();
-            },
-
-            _right: function () {
-                this.$.hierarchy.moveRight();
-            },
-
-            _left: function () {
-                this.$.hierarchy.moveLeft();
-            },
-
-            _submit: function () {
-                this.$.hierarchy.submit();
                 this.$.popup.close();
             },
 
