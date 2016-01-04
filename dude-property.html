@@ -122,6 +122,12 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                         </paper-dropdown-menu>
                     </div>
                 </template>
+                <template is="dom-if" if="{{ _isType(propertyType, 'color') }}" restamp>
+                    <div class="layout horizontal flex">
+                        <input is="input" value="{{ propertyValue::input }}" bind-value="{{ propertyValue }}" placeholder="color" class="flex" type="text">
+                        <input is="input" value="{{ propertyValue::input }}" bind-value="{{ propertyValue }}" type="color">
+                    </div>
+                </template>
                 <template is="dom-if" if="{{ _isType(propertyType, 'vec4') }}" restamp>
                     <div class="layout horizontal flex">
                         <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number">
@@ -135,6 +141,12 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                         <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number">
                         <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number">
                         <input is="input" value="{{ propertyValue.z::input }}" bind-value="{{ propertyValue.z }}" placeholder="z" class="flex" type="number">
+                    </div>
+                </template>
+                <template is="dom-if" if="{{ _isType(propertyType, 'vec2') }}" restamp>
+                    <div class="layout horizontal flex">
+                        <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number">
+                        <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number">
                     </div>
                 </template>
                 <template is="dom-if" if="{{ _isType(propertyType, 'transform') }}" restamp>
@@ -154,12 +166,6 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                             <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.scale.y }}" placeholder="sy" class="flex" type="number">
                             <input is="input" value="{{ propertyValue.z::input }}" bind-value="{{ propertyValue.scale.z }}" placeholder="sz" class="flex" type="number">
                         </div>
-                    </div>
-                </template>
-                <template is="dom-if" if="{{ _isType(propertyType, 'vec2') }}" restamp>
-                    <div class="layout horizontal flex">
-                        <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number">
-                        <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number">
                     </div>
                 </template>
                 <template is="dom-if" if="{{ _isType(propertyType, 'number') }}" restamp>

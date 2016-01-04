@@ -22,7 +22,7 @@
             <div class="layout horizontal flex">
                 <div class="layout vertical flex column">
                     <dude-property
-                            property-name="color"
+                            property-name="vec4"
                             property-type="vec4">
                     </dude-property>
                     <dude-property
@@ -81,6 +81,11 @@
                 </div>
                 <div class="layout vertical flex column">
                     <dude-property
+                            property-name="color"
+                            property-type="color"
+                            property-value="{{ color }}">
+                    </dude-property>
+                    <dude-property
                             property-name="transform"
                             property-type="transform">
                     </dude-property>
@@ -125,6 +130,7 @@
                     {item: {name: "intro.mp3",icon: "fa fa-file-audio-o",  data: "intro.mp3"}},
                     {item: {name: "Another file.mp3",icon: "fa fa-file-audio-o",  data: "Another file.mp3"}}
                 ]);
+                this.set("color", "#ff00ff");
             },
 
             _addResource: function () {
@@ -145,6 +151,7 @@
                 console.log("messageValue", this.get("messageValue"));
                 console.log("timeValue", this.get("timeValue"));
                 console.log("enableValue", this.get("enableValue"));
+                console.log("color", this.get("color"));
                 console.log("---------------------------------------");
             }
         });
