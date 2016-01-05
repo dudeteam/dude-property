@@ -115,7 +115,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                     <div data-type="choice" class="layout horizontal flex">
                         <paper-dropdown-menu label="(None)" no-label-float class="flex">
                             <paper-menu class="dropdown-content" attr-for-selected="name" selected="{{ propertyValue }}">
-                                <template is="dom-repeat" items="[[ propertyChoice ]]">
+                                <template is="dom-repeat" items="[[ propertyChoices ]]">
                                     <paper-item name="[[ item ]]">[[ item ]]</paper-item>
                                 </template>
                             </paper-menu>
@@ -269,7 +269,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                 /**
                  * This is only used by properties of type "choice". It references all the possible choices.
                  */
-                "propertyChoice": {
+                "propertyChoices": {
                     "type": Array,
                     "value": []
                 },
