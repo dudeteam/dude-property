@@ -3,13 +3,14 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
 -->
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-input/iron-input.html">
+<link rel="import" href="../iron-flex-layout/classes/iron-flex-layout.html">
 <link rel="import" href="../iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
-<link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../paper-menu/paper-menu.html">
 <link rel="import" href="../paper-item/paper-item.html">
 <link rel="import" href="../paper-slider/paper-slider.html">
+<link rel="import" href="../paper-input/paper-textarea.html">
 <link rel="import" href="../paper-toggle-button/paper-toggle-button.html">
-<link rel="import" href="../iron-flex-layout/classes/iron-flex-layout.html">
+<link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../dude-popup/dude-popup.html">
 <link rel="import" href="dude-property-resource.html">
 <!--
@@ -175,7 +176,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                 </template>
                 <template is="dom-if" if="{{ _isType(propertyType, 'String') }}" restamp>
                     <div class="layout horizontal flex">
-                        <input is="input" value="{{ propertyValue::input }}" bind-value="{{ propertyValue }}" class="flex" type="text" placeholder="(None)">
+                        <paper-textarea value="{{ propertyValue }}" class="flex" placeholder="(None)"></paper-textarea>
                     </div>
                 </template>
                 <template is="dom-if" if="{{ _isType(propertyType, 'Resource') }}" restamp>
@@ -229,7 +230,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                  * Disable reference for this property.
                  */
                 "noMenu": {
-                    "type": "boolean",
+                    "type": Boolean,
                     "value": false
                 },
 
@@ -291,6 +292,9 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                     "value": {min: 1, max: 10, step: 1}
                 },
 
+                /**
+                 *
+                 */
                 "menuItem": {
                     "type": String,
                     "value": null,
