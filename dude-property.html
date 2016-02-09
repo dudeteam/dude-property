@@ -198,7 +198,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                 </template>
                 <template is="dom-if" if="{{ _isType(propertyType, 'Boolean') }}" restamp>
                     <div class="layout horizontal flex" style="padding-top: 5px; padding-left: 10px">
-                        <paper-toggle-button id="booleanPicker" on-change="_updateBoolean"></paper-toggle-button>
+                        <paper-toggle-button checked="{{ propertyValue }}"></paper-toggle-button>
                     </div>
                 </template>
             </template>
@@ -382,24 +382,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
              * @private
              */
             _propertyValueChanged: function () {
-                if (this.get("propertyType") === "boolean") {
-                    var booleanPicker = this.querySelector("#booleanPicker");
-                    if (booleanPicker !== null) {
-                        if (this.get("propertyValue")) {
-                            booleanPicker.setAttribute("checked", "");
-                        } else {
-                            booleanPicker.removeAttribute("checked");
-                        }
-                    }
-                }
-            },
 
-            /**
-             * This updates boolean values by watching paper-toggle-button's "on-change" event.
-             * @private
-             */
-            _updateBoolean: function () {
-                this.set("propertyValue", !this.get("propertyValue"));
             }
         });
     </script>
