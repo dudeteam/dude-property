@@ -1,0 +1,59 @@
+<!--
+Copyright (c) 2015 DudeTeam. All rights reserved.
+-->
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="dude-property-string.html">
+<!--
+`dude-property-string`
+
+@group dude Elements
+@element dude-property
+@demo demo/index.html
+-->
+<dom-module id="dude-property-string">
+    <style include="iron-flex"></style>
+    <template>
+        <label for="propertyInput">{{ propertyName }}</label>
+        <input id="propertyInput" value="{{ propertyValue::input }}" type="{{ inputType }}">
+    </template>
+    <script>
+        Polymer({
+            is: "dude-property-string",
+            properties: {
+                "propertyType": {
+                    "type": String,
+                    "readonly": true
+                },
+                "propertyName": {
+                    "type": String,
+                    "readonly": true
+                },
+                "propertyData": {
+                    "type": String,
+                    "readonly": true
+                },
+                "propertyValue": {
+                    "type": String,
+                    "observer": "update"
+                },
+                "inputType": {
+                    "type": String,
+                    "computed": "_inputType(propertyType)"
+                }
+            },
+            attached: function () {
+                this.fire("dude-property-ready");
+            },
+            update: function () {
+                this.fire("dude-property-update");
+            },
+            setPropertyValue: function (propertyValue) {
+                this.set("propertyValue", propertyValue);
+            },
+            _inputType: function (propertyType) {
+                return propertyType === "String" ? "text" : "number";
+            }
+        });
+    </script>
+</dom-module>

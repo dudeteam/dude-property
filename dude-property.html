@@ -2,17 +2,8 @@
 Copyright (c) 2015 DudeTeam. All rights reserved.
 -->
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../iron-input/iron-input.html">
-<link rel="import" href="../iron-flex-layout/classes/iron-flex-layout.html">
-<link rel="import" href="../iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
-<link rel="import" href="../paper-menu/paper-menu.html">
-<link rel="import" href="../paper-item/paper-item.html">
-<link rel="import" href="../paper-slider/paper-slider.html">
-<link rel="import" href="../paper-input/paper-textarea.html">
-<link rel="import" href="../paper-toggle-button/paper-toggle-button.html">
-<link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
-<link rel="import" href="../dude-popup/dude-popup.html">
-<link rel="import" href="dude-property-resource.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="dude-property-string.html">
 <!--
 `dude-property` A generic picker which adapts automatically according to the type of the given value.
 
@@ -21,375 +12,115 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
 @demo demo/index.html
 -->
 <dom-module id="dude-property">
-    <style>
-        :host {
-            display: block;
-            padding: 10px 0;
-            --dude-property-label-color: var(--dude-secondary-text-color);
-        }
-
-        label {
-            display: block;
-            padding-bottom: 5px;
-            font-family: var(--dude-primary-text-font);
-            color: var(--dude-property-label-color);
-            font-size: .8em;
-        }
-
-        input[type="text"], input[type="number"] {
-            color: var(--dude-content-text-color);
-            background: transparent;
-            border: none;
-            border-bottom: 1px solid var(--dude-property-label-color);
-            outline: none;
-            font-size: 1em;
-            font-family: var(--dude-content-text-font);
-        }
-
-        input[type="text"]:not(:first-child), input[type="number"]:not(:first-child) {
-            margin-left: 10px;
-        }
-
-        input[type="text"]:focus, input[type="number"]:focus {
-            border-bottom: 2px solid var(--dude-primary-color);
-        }
-        input::-webkit-input-placeholder {
-            color: var(--dude-secondary-text-color);
-        }
-        input:-moz-placeholder {
-            /* FF 4-18 */
-            color: var(--dude-secondary-text-color);
-        }
-        input::-moz-placeholder {
-            /* FF 19+ */
-            color: var(--dude-secondary-text-color);
-        }
-        input:-ms-input-placeholder {
-            /* IE 10+ */
-            color: var(--dude-secondary-text-color);
-        }
-        #unknown {
-            font-family: var(--dude-content-text-font);
-            color: var(--dude-content-text-color);
-            padding-top: 8px;
-        }
-        #picker {
-            /*height: 32px;*/
-        }
-        a > i {
-            padding: 8px;
-            color: var(--dude-secondary-text-color);
-            cursor: pointer;
-        }
-        #tag {
-            padding-left: 10px;
-            border-radius: 5px;
-            background: var(--dude-primary-color);
-            font-family: var(--dude-content-text-font);
-        }
-        #tag span {
-            padding-top: 8px;
-        }
-        #tag a > i {
-            color: var(--dude-primary-text-color);
-        }
-        #menu paper-menu {
-            background: var(--dude-primary-background-color);
-            border-radius: 5px;
-            box-shadow: 0 3px 10px var(--dude-secondary-background-color);
-        }
-        #transformRows {
-            display: block;
-        }
-        .transform-row {
-            padding: 10px 0;
-        }
-        paper-textarea {
-            margin-top: -20px; /* remove space taken by disabled floating label */
-        }
-    </style>
+    <style include="iron-flex"></style>
     <template>
-        <label>[[ propertyName ]]</label>
-        <div hidden$="[[ propertyReference ]]" id="picker" class="layout horizontal">
-            <template is="dom-if" if="{{ !propertyReference }}" restamp>
-                <template is="dom-if" if="{{ _isType(propertyType, '__unknown__') }}" restamp>
-                    <div id="unknown" class="layout horizontal flex">(None)</div>
-                </template>
-                <template is="dom-if" if="{{ _isType(propertyType, 'Choice') }}" restamp>
-                    <div data-type="choice" class="layout horizontal flex">
-                        <paper-dropdown-menu label="(None)" no-label-float class="flex">
-                            <paper-menu class="dropdown-content" attr-for-selected="name" selected="{{ propertyValue }}">
-                                <template is="dom-repeat" items="[[ propertyChoices ]]">
-                                    <paper-item name="[[ item ]]">[[ item ]]</paper-item>
-                                </template>
-                            </paper-menu>
-                        </paper-dropdown-menu>
-                    </div>
-                </template>
-                <template is="dom-if" if="{{ _isType(propertyType, 'Color') }}" restamp>
-                    <div class="layout horizontal flex">
-                        <input is="input" value="{{ propertyValue::input }}" bind-value="{{ propertyValue }}" placeholder="color" class="flex" type="text">
-                        <input is="input" value="{{ propertyValue::input }}" bind-value="{{ propertyValue }}" type="color">
-                    </div>
-                </template>
-                <template is="dom-if" if="{{ _isType(propertyType, 'Vec4') }}" restamp>
-                    <div class="layout horizontal flex">
-                        <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number">
-                        <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number">
-                        <input is="input" value="{{ propertyValue.z::input }}" bind-value="{{ propertyValue.z }}" placeholder="z" class="flex" type="number">
-                        <input is="input" value="{{ propertyValue.w::input }}" bind-value="{{ propertyValue.w }}" placeholder="w" class="flex" type="number">
-                    </div>
-                </template>
-                <template is="dom-if" if="{{ _isType(propertyType, 'Vec3') }}" restamp>
-                    <div class="layout horizontal flex">
-                        <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number">
-                        <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number">
-                        <input is="input" value="{{ propertyValue.z::input }}" bind-value="{{ propertyValue.z }}" placeholder="z" class="flex" type="number">
-                    </div>
-                </template>
-                <template is="dom-if" if="{{ _isType(propertyType, 'Vec2') }}" restamp>
-                    <div class="layout horizontal flex">
-                        <input is="input" value="{{ propertyValue.x::input }}" bind-value="{{ propertyValue.x }}" placeholder="x" class="flex" type="number">
-                        <input is="input" value="{{ propertyValue.y::input }}" bind-value="{{ propertyValue.y }}" placeholder="y" class="flex" type="number">
-                    </div>
-                </template>
-                <template is="dom-if" if="{{ _isType(propertyType, 'Transform') }}" restamp>
-                    <div id="transformRows" class="flex">
-                        <div class="transform-row layout horizontal flex">
-                            <input is="input" value="{{ propertyValue.position.x::input }}" bind-value="{{ propertyValue.position.x }}" placeholder="x" class="flex" type="number">
-                            <input is="input" value="{{ propertyValue.position.y::input }}" bind-value="{{ propertyValue.position.y }}" placeholder="y" class="flex" type="number">
-                            <input is="input" value="{{ propertyValue.position.z::input }}" bind-value="{{ propertyValue.position.z }}" placeholder="z" class="flex" type="number">
-                        </div>
-                        <div class="transform-row layout horizontal flex">
-                            <input is="input" value="{{ propertyValue.rotation.x::input }}" bind-value="{{ propertyValue.rotation.x }}" placeholder="rx" class="flex" type="number">
-                            <input is="input" value="{{ propertyValue.rotation.y::input }}" bind-value="{{ propertyValue.rotation.y }}" placeholder="ry" class="flex" type="number">
-                            <input is="input" value="{{ propertyValue.rotation.z::input }}" bind-value="{{ propertyValue.rotation.z }}" placeholder="rz" class="flex" type="number">
-                        </div>
-                        <div class="transform-row layout horizontal flex">
-                            <input is="input" value="{{ propertyValue.scale.x::input }}" bind-value="{{ propertyValue.scale.x }}" placeholder="sx" class="flex" type="number">
-                            <input is="input" value="{{ propertyValue.scale.y::input }}" bind-value="{{ propertyValue.scale.y }}" placeholder="sy" class="flex" type="number">
-                            <input is="input" value="{{ propertyValue.scale.z::input }}" bind-value="{{ propertyValue.scale.z }}" placeholder="sz" class="flex" type="number">
-                        </div>
-                    </div>
-                </template>
-                <template is="dom-if" if="{{ _isType(propertyType, 'Number') }}" restamp>
-                    <div class="layout horizontal flex">
-                        <input is="input" value="{{ propertyValue::input }}" bind-value="{{ propertyValue }}" class="flex" type="number" placeholder="(None)">
-                    </div>
-                </template>
-                <template is="dom-if" if="{{ _isType(propertyType, 'String') }}" restamp>
-                    <div class="layout horizontal flex">
-                        <paper-textarea value="{{ propertyValue }}" class="flex" placeholder="(None)"></paper-textarea>
-                    </div>
-                </template>
-                <template is="dom-if" if="{{ _isType(propertyType, 'Resource') }}" restamp>
-                    <div class="layout horizontal flex">
-                        <dude-property-resource
-                                class="flex"
-                                resource="{{ propertyValue }}"
-                                resources="{{ propertyResources }}">
-                        </dude-property-resource>
-                    </div>
-                </template>
-                <template is="dom-if" if="{{ _isType(propertyType, 'Range') }}" restamp>
-                    <div class="layout horizontal flex">
-                        <paper-slider value="{{ propertyValue }}" class="flex"
-                            min="{{ propertyRange.min }}"
-                            max="{{ propertyRange.max }}"
-                            step="{{ propertyRange.step }}" pin>
-                        </paper-slider>
-                    </div>
-                </template>
-                <template is="dom-if" if="{{ _isType(propertyType, 'Boolean') }}" restamp>
-                    <div class="layout horizontal flex" style="padding-top: 5px; padding-left: 10px">
-                        <paper-toggle-button checked="{{ propertyValue }}"></paper-toggle-button>
-                    </div>
-                </template>
-            </template>
-            <template is="dom-if" if="[[ !propertyReference ]]">
-                <a hidden$="[[ noMenu ]]" on-click="_openMenu"><i class="fa fa-dot-circle-o"></i></a>
-            </template>
-        </div>
-        <div hidden$="[[ !propertyReference ]]" id="tag" class="layout horizontal">
-            <span class="flex">[[ propertyReference.name ]]</span>
-            <a on-click="_removeReference"><i class="fa fa-times-circle"></i></a>
-        </div>
-        <dude-popup id="menu">
-            <paper-menu class="dropdown-content" attr-for-selected="name" selected="{{ menuItem }}">
-                <paper-item name="clear">Clear</paper-item>
-            </paper-menu>
-        </dude-popup>
+        <fieldset>
+            <div id="property"></div>
+            <div>
+                Value: <span>{{ propertyValue }}</span>
+            </div>
+        </fieldset>
+        <br/>
     </template>
     <script>
         Polymer({
-
             is: "dude-property",
-
-            behaviors: [Polymer.IronA11yKeysBehavior],
-
             properties: {
-
                 /**
-                 * Disable reference for this property.
+                 *
                  */
-                "noMenu": {
-                    "type": Boolean,
-                    "value": false
+                "propertyTypes": {
+                    "type": Object,
+                    "value": {
+                        "String": "dude-resource-string",
+                        "Number": "dude-resource-string"
+                    }
                 },
 
                 /**
-                 * Represents the name of this property. It will also be used to display the property label.
+                 *
+                 */
+                "propertyType": {
+                    "type": String,
+                    "observer": "_propertyTypeChanged"
+                },
+
+                /**
+                 *
                  */
                 "propertyName": {
                     "type": String
                 },
 
                 /**
-                 * Represents the type of this property. It will be used to switch to the appropriate picker.
+                 *
                  */
-                "propertyType": {
-                    "type": String
-                },
-
-                /**
-                 * Stores the current value of the property. It will be updated by the picker, but also the other
-                 * way around. This value can be null, when there is a reference for example.
-                 */
-                "propertyValue": {
-                    "type": Object,
-                    "notify": true,
-                    "observer": "_propertyValueChanged"
-                },
-
-                /**
-                 * By default this value is not, otherwise it represents a reference on a variable instead of a direct
-                 * value.
-                 */
-                "propertyReference": {
-                    "type": Object,
-                    "value": null
-                },
-
-                /**
-                 * This is only used by properties of type "choice". It references all the possible choices.
-                 */
-                "propertyChoices": {
-                    "type": Array,
-                    "value": []
-                },
-
-                /**
-                 * This is only used by properties of type "resource". It references all the possible resources.
-                 */
-                "propertyResources": {
-                    "type": Array,
-                    "value": []
-                },
-
-                /**
-                 * This is only used by properties of type "range". It configures the slider by given the `min`, `max`
-                 * and `step` values.
-                 */
-                "propertyRange": {
-                    "type": Object,
-                    "value": {min: 1, max: 10, step: 1}
+                "propertyData": {
+                    "type": Object
                 },
 
                 /**
                  *
                  */
-                "menuItem": {
-                    "type": String,
-                    "value": null,
-                    "observer": "_menuItemChanged"
+                "propertyValue": {
+                    "type": Object,
+                    "observer": "_propertyValueChanged"
                 }
             },
-
-            /**
-             * Called when the element is attached to the dom. Checks if there is some property-value related updates
-             * to do during initialization.
-             */
-            attached: function () {
-                this.keyEventTarget = document.body;
-                this.addOwnKeyBinding("esc", "_closeMenu");
-                this._propertyValueChanged();
+            listeners: {
+                "dude-property-ready": "propertyReady",
+                "dude-property-update": "propertyValueUpdate"
             },
 
             /**
-             * Checks whether the given typeName is the same as the property type.
-             * @param {String} propertyType
-             * @param {String} typeName
-             * @returns {Boolean}
-             * @private
+             *
              */
-            _isType: function (propertyType, typeName) {
-                if (propertyType === null && typeName === "__unknown__") {
-                    return true;
+            _propertyCustomElementReady: false,
+            _propertyCustomElement: null,
+
+            /**
+             *
+             */
+            _propertyTypeChanged: function (propertyType) {
+                if (this._propertyCustomElement !== null && this._propertyCustomElement.get("propertyType") !== propertyType) {
+                    this.$.property.removeChild(this._propertyCustomElement);
+                    this._propertyCustomElement = null;
+                    this.set("_propertyCustomElementReady", false);
                 }
-                return propertyType == typeName;
-            },
-
-            /**
-             * Opens a menu to perform actions on the property.
-             * @param {Object} e Contains event information
-             */
-            _openMenu: function (e) {
-                this.$.menu.open(e.x, e.y);
-            },
-
-            /**
-             * Closes the menu.
-             */
-            _closeMenu: function () {
-                this.$.menu.close();
-            },
-
-            /**
-             * Called when the menu item changes.
-             */
-            _menuItemChanged: function () {
-                if (this.menuItem !== null) {
-                    if (this.menuItem === "clear") {
-                        this.propertyValue = null;
-                    } else if (this.menuItem === "addReference") {
-                        console.log("Add reference...");
+                if (this._propertyCustomElement === null) {
+                    var propertyCustomElement = this.get("propertyTypes")[propertyType];
+                    if (typeof propertyCustomElement === "undefined") {
+                        console.warn("`" + propertyType + "` not managed");
+                        return;
                     }
-                    this.menuItem = null;
-                    this._closeMenu();
+                    this._propertyCustomElement = document.createElement("dude-property-string");
+                    this.$.property.appendChild(this._propertyCustomElement);
                 }
             },
 
-            /**
-             * Called when adding a dude property reference
-             * @delegate
-             * @private
-             */
-            _addReference: function () {
-                this.fire("dude-property-add-reference");
-                this.set("propertyReference", {
-                    "name": "my_reference"
-                });
+            _propertyValueChanged: function (propertyValue) {
+
+                this._propertyCustomElement.setPropertyValue(this.get("propertyValue"));
             },
 
             /**
-             * Called when the dude property reference is removed
-             * @delegate
-             * @private
+             * Called when the property is ready
              */
-            _removeReference: function () {
-                this.fire("dude-property-remove-reference", {
-                    reference: this.propertyReference
-                });
-                this.set("propertyReference", null);
+            propertyReady: function () {
+                this.set("_propertyCustomElementReady", true);
+                this._propertyCustomElement.set("propertyType", this.get("propertyType"));
+                this._propertyCustomElement.set("propertyName", this.get("propertyName"));
+                this._propertyCustomElement.set("propertyData", this.get("propertyData"));
+                this._propertyCustomElement.setPropertyValue(this.get("propertyValue"));
             },
 
             /**
-             * Called when the property value changes. It will be used to handle some exceptions depending on the
-             * type of property to update (for example, when bindings doesn't work).
-             * @private
+             * Called when the propertyValue is updated
              */
-            _propertyValueChanged: function () {
-
+            propertyValueUpdate: function () {
+                if (this.get("_propertyCustomElementReady", true)) {
+                    this.set("propertyValue", this._propertyCustomElement.get("propertyValue"));
+                }
             }
         });
     </script>
