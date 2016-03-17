@@ -89,17 +89,31 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
             _propertyElementIsReady: false,
 
             /**
+             * Registers the given propertyType with the given propertyElementName
+             * @param {String} propertyType
+             * @param {String} propertyElementName
+             */
+            registerPropertyElement: function (propertyType, propertyElementName) {
+                var propertyElement = this.get("propertyElementTypes")[propertyType];
+                if (typeof propertyElement === "undefined") {
+                    console.warn("`" + propertyType + "` already managed");
+                    return;
+                }
+                this.get("propertyElementTypes")[propertyType] = propertyElementName;
+            },
+
+            /**
              * Creates the property element for the given propertyType
              * @param {String} propertyType
              * @private
              */
             _createPropertyElement(propertyType) {
-                var propertyCustomElement = this.get("propertyElementTypes")[propertyType];
-                if (typeof propertyCustomElement === "undefined") {
+                var propertyElement = this.get("propertyElementTypes")[propertyType];
+                if (typeof propertyElement === "undefined") {
                     console.warn("`" + propertyType + "` not managed");
                     return;
                 }
-                this._propertyElement = document.createElement(propertyCustomElement);
+                this._propertyElement = document.createElement(propertyElement);
                 this.$.property.appendChild(this._propertyElement);
             },
 
