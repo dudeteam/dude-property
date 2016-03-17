@@ -4,21 +4,21 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
 <!--
-`dude-property-string`
+`dude-property-template`
 
 @group dude Elements
 @element dude-property
 @demo demo/index.html
 -->
-<dom-module id="dude-property-string">
+<dom-module id="dude-property-template">
     <style include="iron-flex"></style>
     <template>
-        <label for="propertyInput">[[ propertyName ]]</label>
-        <input id="propertyInput" value="{{ propertyValue::input }}" type="[[ inputType ]]">
+        <label for="propertyInput">{{ propertyName }}</label>
+        <input id="propertyInput" value="{{ propertyValue::input }}">
     </template>
     <script>
         Polymer({
-            is: "dude-property-string",
+            is: "dude-property-template",
             properties: {
                 "propertyType": {
                     "type": String,
@@ -35,10 +35,6 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
                 "propertyValue": {
                     "type": String,
                     "observer": "_propertyValueChanged"
-                },
-                "inputType": {
-                    "type": String,
-                    "computed": "_inputType(propertyType)"
                 }
             },
 
@@ -65,22 +61,6 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
              */
             _propertyValueChanged: function () {
                 this.fire("dude-property-value-change");
-            },
-
-            /**
-             * Returns the input type corresponding to the propertyType
-             * @param {String} propertyType
-             * @returns {String}
-             * @private
-             */
-            _inputType: function (propertyType) {
-                switch (propertyType) {
-                    case "String":
-                        return "text";
-                    case "Number":
-                        return "number";
-                }
-                return "text";
             }
         });
     </script>

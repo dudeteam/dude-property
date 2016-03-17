@@ -14,112 +14,139 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
 <dom-module id="dude-property">
     <style include="iron-flex"></style>
     <template>
-        <fieldset>
             <div id="property"></div>
-            <div>
-                Value: <span>{{ propertyValue }}</span>
-            </div>
-        </fieldset>
-        <br/>
     </template>
     <script>
         Polymer({
             is: "dude-property",
             properties: {
                 /**
-                 *
+                 * The managed property types
                  */
-                "propertyTypes": {
+                "propertyElementTypes": {
                     "type": Object,
                     "value": {
-                        "String": "dude-resource-string",
-                        "Number": "dude-resource-string"
+                        "String": "dude-property-string",
+                        "Number": "dude-property-string"
                     }
                 },
 
                 /**
-                 *
+                 * Property type
                  */
                 "propertyType": {
                     "type": String,
+                    "readonly": true,
                     "observer": "_propertyTypeChanged"
                 },
 
                 /**
-                 *
+                 * Property name
                  */
                 "propertyName": {
-                    "type": String
+                    "type": String,
+                    "readonly": true
                 },
 
                 /**
-                 *
+                 * Property data
                  */
                 "propertyData": {
-                    "type": Object
+                    "type": Object,
+                    "readonly": true
                 },
 
                 /**
-                 *
+                 * Property value
                  */
                 "propertyValue": {
                     "type": Object,
+                    "notify": true,
                     "observer": "_propertyValueChanged"
                 }
             },
             listeners: {
-                "dude-property-ready": "propertyReady",
-                "dude-property-update": "propertyValueUpdate"
+                "dude-property-ready": "_propertyElementReady",
+                "dude-property-value-change": "_propertyElementValueChanged"
             },
 
             /**
-             *
+             * The property element
+             * @type {HTMLElement}
+             * @private
              */
-            _propertyCustomElementReady: false,
-            _propertyCustomElement: null,
+            _propertyElement: null,
 
             /**
-             *
+             * Whether the property element is ready
+             * @type {Boolean}
+             * @private
+             */
+            _propertyElementIsReady: false,
+
+            /**
+             * Creates the property element for the given propertyType
+             * @param {String} propertyType
+             * @private
+             */
+            _createPropertyElement(propertyType) {
+                var propertyCustomElement = this.get("propertyElementTypes")[propertyType];
+                if (typeof propertyCustomElement === "undefined") {
+                    console.warn("`" + propertyType + "` not managed");
+                    return;
+                }
+                this._propertyElement = document.createElement(propertyCustomElement);
+                this.$.property.appendChild(this._propertyElement);
+            },
+
+            /**
+             * Called when the property type changed
+             * Will create the appropriate property element
+             * @private
              */
             _propertyTypeChanged: function (propertyType) {
-                if (this._propertyCustomElement !== null && this._propertyCustomElement.get("propertyType") !== propertyType) {
-                    this.$.property.removeChild(this._propertyCustomElement);
-                    this._propertyCustomElement = null;
-                    this.set("_propertyCustomElementReady", false);
+                if (this._propertyElement !== null && this._propertyElement.get("propertyType") !== propertyType) {
+                    this.$.property.removeChild(this._propertyElement);
+                    this._propertyElement = null;
+                    this.set("_propertyElementIsReady", false);
                 }
-                if (this._propertyCustomElement === null) {
-                    var propertyCustomElement = this.get("propertyTypes")[propertyType];
-                    if (typeof propertyCustomElement === "undefined") {
-                        console.warn("`" + propertyType + "` not managed");
-                        return;
-                    }
-                    this._propertyCustomElement = document.createElement("dude-property-string");
-                    this.$.property.appendChild(this._propertyCustomElement);
+                if (this._propertyElement === null) {
+                    this._createPropertyElement(propertyType);
                 }
             },
 
+            /**
+             * Called when the propertyValue changed
+             * Notifies the custom element that the property value changed
+             * @private
+             */
             _propertyValueChanged: function (propertyValue) {
-
-                this._propertyCustomElement.setPropertyValue(this.get("propertyValue"));
+                if (this.get("_propertyElementIsReady")) {
+                    if (this._propertyElement.get("propertyValue") !== propertyValue) {
+                        this._propertyElement.setPropertyValue(this.get("propertyValue"));
+                    }
+                }
             },
 
             /**
-             * Called when the property is ready
+             * Called when the property element is ready
+             * @private
              */
-            propertyReady: function () {
-                this.set("_propertyCustomElementReady", true);
-                this._propertyCustomElement.set("propertyType", this.get("propertyType"));
-                this._propertyCustomElement.set("propertyName", this.get("propertyName"));
-                this._propertyCustomElement.set("propertyData", this.get("propertyData"));
-                this._propertyCustomElement.setPropertyValue(this.get("propertyValue"));
+            _propertyElementReady: function () {
+                this.set("_propertyElementIsReady", true);
+                this._propertyElement.set("propertyType", this.get("propertyType"));
+                this._propertyElement.set("propertyName", this.get("propertyName"));
+                this._propertyElement.set("propertyData", this.get("propertyData"));
+                this._propertyElement.setPropertyValue(this.get("propertyValue"));
             },
 
             /**
-             * Called when the propertyValue is updated
+             * Called when the property element value is updated
+             * @private
              */
-            propertyValueUpdate: function () {
-                if (this.get("_propertyCustomElementReady", true)) {
-                    this.set("propertyValue", this._propertyCustomElement.get("propertyValue"));
+            _propertyElementValueChanged: function () {
+                if (this.get("_propertyElementIsReady")) {
+                    this.set("propertyValue", this._propertyElement.get("propertyValue"));
                 }
             }
         });
