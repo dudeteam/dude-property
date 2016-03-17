@@ -1,0 +1,67 @@
+<!--
+Copyright (c) 2015 DudeTeam. All rights reserved.
+-->
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<!--
+`dude-property-boolean`
+
+@group dude Elements
+@element dude-property
+@demo demo/index.html
+-->
+<dom-module id="dude-property-boolean">
+    <style include="iron-flex"></style>
+    <template>
+        <label for="propertyInput">{{ propertyName }}</label>
+        <input id="propertyInput" type="checkbox" checked="{{ propertyValue::change }}">
+    </template>
+    <script>
+        Polymer({
+            is: "dude-property-boolean",
+            properties: {
+                "propertyType": {
+                    "type": String,
+                    "readonly": true
+                },
+                "propertyName": {
+                    "type": String,
+                    "readonly": true
+                },
+                "propertyData": {
+                    "type": String,
+                    "readonly": true
+                },
+                "propertyValue": {
+                    "type": String,
+                    "observer": "_propertyValueChanged"
+                }
+            },
+
+            /**
+             * Called when the property element is attached to the DOM (dude-property.$.property)
+             * Notifies dude-property that we are ready
+             */
+            attached: function () {
+                this.fire("dude-property-ready");
+            },
+
+            /**
+             * Called when the propertyValue changed in dude-property
+             * @param {Object} propertyValue
+             */
+            setPropertyValue: function (propertyValue) {
+                this.set("propertyValue", propertyValue);
+            },
+
+            /**
+             * Called when the propertyValue changed
+             * Notifies dude-property that the property value changed
+             * @private
+             */
+            _propertyValueChanged: function () {
+                this.fire("dude-property-value-change");
+            }
+        });
+    </script>
+</dom-module>
