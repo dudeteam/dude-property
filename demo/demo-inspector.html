@@ -24,14 +24,19 @@
                     property-value="{{ ratioValue }}">
             </dude-property>
             <dude-property
-                    property-name="message"
+                    property-name="type"
                     property-type="String"
-                    property-value="{{ messageValue }}">
+                    property-value="{{ typeValue }}">
             </dude-property>
             <dude-property
                     property-name="activated"
                     property-type="Boolean"
                     property-value="{{ activatedValue }}">
+            </dude-property>
+            <dude-property
+                    property-name="custom"
+                    property-type="[[ typeValue ]]"
+                    property-value="{{ customValue }}">
             </dude-property>
             <paper-button on-click="_showValues">Show values</paper-button>
         </div>
@@ -44,19 +49,23 @@
                     "type": Number,
                     "value": 32
                 },
-                "messageValue": {
+                "typeValue": {
                     "type": String,
-                    "value": "Test message"
+                    "value": "Boolean"
                 },
                 "activatedValue": {
                     "type": Boolean,
                     "value": true
+                },
+                "customValue": {
+                    "type": Object
                 }
             },
             _showValues: function () {
                 console.log("ratio", this.get("ratioValue"));
-                console.log("message", this.get("messageValue"));
+                console.log("type", this.get("typeValue"));
                 console.log("activated", this.get("activatedValue"));
+                console.log("custom", this.get("customValue"));
             }
         });
     </script>
