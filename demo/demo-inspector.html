@@ -19,6 +19,11 @@
     <template>
         <div id="inspector" class="layout vertical flex">
             <dude-property
+                    property-name="message"
+                    property-type="Text"
+                    property-value="{{ messageValue }}">
+            </dude-property>
+            <dude-property
                     property-name="ratio"
                     property-type="Number"
                     property-value="{{ ratioValue }}">
@@ -50,6 +55,10 @@
         Polymer({
             is: "demo-inspector",
             properties: {
+                "messageValue": {
+                    "type": String,
+                    "value": "Multiline\nMessage"
+                },
                 "ratioValue": {
                     "type": Number,
                     "value": 32
@@ -67,6 +76,7 @@
                 }
             },
             _showValues: function () {
+                console.log("message", this.get("messageValue"));
                 console.log("ratio", this.get("ratioValue"));
                 console.log("type", this.get("typeValue"));
                 console.log("activated", this.get("activatedValue"));
