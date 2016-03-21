@@ -1,0 +1,90 @@
+<!--
+Copyright (c) 2015 DudeTeam. All rights reserved.
+-->
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<!--
+`dude-property-resource`
+
+@group dude Elements
+@element dude-property
+@demo demo/index.html
+-->
+<dom-module id="dude-property-resource">
+    <style include="iron-flex"></style>
+    <template>
+        <label for="propertyInput">[[ propertyName ]]</label>
+        <button id="propertyInput" on-click="_openResourceManager">[[ resourceValueName ]]</button>
+    </template>
+    <script>
+        Polymer({
+            is: "dude-property-resource",
+            properties: {
+                "propertyType": {
+                    "type": String,
+                    "readonly": true
+                },
+                "propertyName": {
+                    "type": String,
+                    "readonly": true
+                },
+                "propertyData": {
+                    "type": Object,
+                    "readonly": true
+                },
+                "propertyValue": {
+                    "type": String,
+                    "value": null,
+                    "observer": "_propertyValueChanged"
+                },
+                "resourceValueName": {
+                    "computed": "_resourceValueName(propertyValue)"
+                }
+            },
+            listeners: {
+                "dude-resource-manager-submit": "_propertyValueChanged"
+            },
+
+            /**
+             * Called when the property element is attached to the DOM (dude-property.$.property)
+             * Notifies dude-property that we are ready
+             */
+            attached: function () {
+                this.fire("dude-property-ready");
+            },
+
+            /**
+             * Called when the propertyValue changed in dude-property
+             * @param {Object} propertyValue
+             */
+            setPropertyValue: function (propertyValue) {
+                this.set("propertyValue", propertyValue);
+            },
+
+            /**
+             * Called when the propertyValue changed
+             * Notifies dude-property that the property value changed
+             * @private
+             */
+            _propertyValueChanged: function () {
+                this.fire("dude-property-value-change");
+            },
+
+            /**
+             * @param {Object} propertyValue
+             * @private
+             */
+            _resourceValueName: function (propertyValue) {
+                return (propertyValue && propertyValue.resourceValue && propertyValue.resourceValue.item.name) || "(None)";
+            },
+
+            /**
+             * Opens the resource manager
+             * @private
+             */
+            _openResourceManager: function () {
+                this.fire("dude-property-resource-open");
+            }
+        });
+    </script>
+</dom-module>
