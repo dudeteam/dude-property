@@ -10,8 +10,7 @@
 <dom-module id="dude-property-boolean">
     <style include="iron-flex"></style>
     <template>
-        <label for="propertyInput">{{ propertyName }}</label>
-        <input id="propertyInput" type="checkbox" checked="{{ propertyValue::change }}">
+        <input type="checkbox" checked="{{ propertyValue::change }}">
     </template>
     <script>
         Polymer({

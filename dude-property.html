@@ -1,5 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../dude-style/dude-style.html">
 <link rel="import" href="dude-property-text.html">
 <link rel="import" href="dude-property-color.html">
 <link rel="import" href="dude-property-string.html">
@@ -14,7 +15,13 @@
 -->
 <dom-module id="dude-property">
     <style include="iron-flex"></style>
+    <style>
+        label {
+            color: var(--dude-content-text-color);
+        }
+    </style>
     <template>
+        <label for="property">[[ propertyName ]]</label>
         <div id="property"></div>
     </template>
     <script>
