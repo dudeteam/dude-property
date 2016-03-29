@@ -3,6 +3,7 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
 -->
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../dude-input/dude-input.html">
 <!--
 `dude-property-string`
 
@@ -14,7 +15,10 @@ Copyright (c) 2015 DudeTeam. All rights reserved.
     <style include="iron-flex"></style>
     <template>
         <label for="propertyInput">[[ propertyName ]]</label>
-        <input id="propertyInput" value="{{ propertyValue::input }}" type="[[ inputType ]]">
+        <dude-input id="propertyInput"
+                    value="{{ propertyValue }}"
+                    type="[[ inputType ]]">
+        </dude-input>
     </template>
     <script>
         Polymer({
