@@ -29,6 +29,11 @@
                     property-value="{{ ratioValue }}">
             </dude-property>
             <dude-property
+                    property-name="color"
+                    property-type="Color"
+                    property-value="{{ colorValue }}">
+            </dude-property>
+            <dude-property
                     property-name="type"
                     property-type="String"
                     property-value="{{ typeValue }}">
@@ -68,6 +73,10 @@
                     "type": Number,
                     "value": 32
                 },
+                "colorValue": {
+                    "type": String,
+                    "value": "#ff00ff"
+                },
                 "typeValue": {
                     "type": String,
                     "value": "Boolean"
@@ -95,6 +104,7 @@
             _showValues: function () {
                 console.log("message", this.get("messageValue"));
                 console.log("ratio", this.get("ratioValue"));
+                console.log("color", this.get("colorValue"));
                 console.log("type", this.get("typeValue"));
                 console.log("activated", this.get("activatedValue"));
                 console.log("resource", this.get("resourceValue"));

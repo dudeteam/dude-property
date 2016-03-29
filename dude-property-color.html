@@ -1,26 +1,25 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
-<link rel="import" href="../dude-input/dude-input-textarea.html">
+<link rel="import" href="../dude-input/dude-input.html">
 <!--
-`dude-property-text`
+`dude-property-color`
 
 @group dude Elements
 @element dude-property
 @demo demo/index.html
 -->
-<dom-module id="dude-property-text">
+<dom-module id="dude-property-color">
     <style include="iron-flex"></style>
     <template>
-        <label for="propertyInput">[[ propertyName ]]</label>
-        <dude-input-textarea
-                id="propertyInput"
-                value="{{ propertyValue }}"
-                type="[[ inputType ]]">
-        </dude-input-textarea>
+        <label for="propertyInputColor">{{ propertyName }}</label>
+        <input id="propertyInputColor" value="{{ propertyValue::input }}" type="color">
+        <dude-input value="{{ propertyValue }}"
+                    type="text">
+        </dude-input>
     </template>
     <script>
         Polymer({
-            is: "dude-property-text",
+            is: "dude-property-color",
             properties: {
                 "propertyType": {
                     "type": String,
