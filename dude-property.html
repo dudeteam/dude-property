@@ -21,8 +21,10 @@
         }
     </style>
     <template>
-        <label for="property">[[ propertyName ]]</label>
-        <div id="property"></div>
+        <div id="container" hidden$="[[ !_propertyManaged ]]">
+            <label for="property">[[ propertyName ]]</label>
+            <div id="property"></div>
+        </div>
     </template>
     <script>
         Polymer({
@@ -97,6 +99,13 @@
             _propertyElementIsReady: false,
 
             /**
+             * Whether the property type is managed
+             * @type {Boolean}
+             * @private
+             */
+            _propertyManaged: false,
+
+            /**
              * Registers the given propertyType with the given propertyElementName
              * @param {String} propertyType
              * @param {String} propertyElementName
@@ -118,9 +127,11 @@
             _createPropertyElement(propertyType) {
                 var propertyElement = this.get("propertyElementTypes")[propertyType];
                 if (typeof propertyElement === "undefined") {
+                    this.set("_propertyManaged", false);
                     console.warn("`" + propertyType + "` not managed");
                     return;
                 }
+                this.set("_propertyManaged", true);
                 this._propertyElement = document.createElement(propertyElement);
                 this.$.property.appendChild(this._propertyElement);
             },
