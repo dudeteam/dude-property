@@ -16,14 +16,28 @@
 <dom-module id="dude-property">
     <style include="iron-flex"></style>
     <style>
-        label {
-            color: var(--dude-content-text-color);
+        .container {
+            @apply(--layout-horizontal);
+            @apply(--layout-flex);
+        }
+
+        .child1 {
+            @apply(--layout-flex);
+            @apply(--layout-self-start);
+        }
+
+        .child2 {
+            @apply(--layout-self-center);
         }
     </style>
     <template>
         <div id="container" hidden$="[[ !_propertyManaged ]]">
-            <label for="property">[[ propertyName ]]</label>
-            <div id="property"></div>
+            <div class="container">
+                <div id="property" class="child1">[[ propertyName ]]</div>
+                <div class="child2">
+                    <button on-click="clear">Clear</button>
+                </div>
+            </div>
         </div>
     </template>
     <script>
@@ -117,6 +131,13 @@
                     return;
                 }
                 this.get("propertyElementTypes")[propertyType] = propertyElementName;
+            },
+
+            /**
+             * Clears the property by setting it to nul
+             */
+            clear: function () {
+                this.set("propertyValue", null);
             },
 
             /**
