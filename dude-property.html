@@ -16,25 +16,31 @@
 <dom-module id="dude-property">
     <style include="iron-flex"></style>
     <style>
-        .container {
+        .parent {
             @apply(--layout-horizontal);
             @apply(--layout-flex);
         }
 
-        .child1 {
+        .property {
             @apply(--layout-flex);
             @apply(--layout-self-start);
         }
 
-        .child2 {
+        .clear {
             @apply(--layout-self-center);
+        }
+
+        .property-label {
+            color: var(--dude-content-text-color);
         }
     </style>
     <template>
         <div id="container" hidden$="[[ !_propertyManaged ]]">
-            <div class="container">
-                <div id="property" class="child1">[[ propertyName ]]</div>
-                <div class="child2">
+            <div class="parent">
+                <div id="property" class="property">
+                    <label class="property-label">[[ propertyName ]]</label>
+                </div>
+                <div class="clear">
                     <button on-click="clear">Clear</button>
                 </div>
             </div>
