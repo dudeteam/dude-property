@@ -3,6 +3,7 @@
 <link rel="import" href="../dude-style/dude-style.html">
 <link rel="import" href="dude-property-text.html">
 <link rel="import" href="dude-property-color.html">
+<link rel="import" href="dude-property-choice.html">
 <link rel="import" href="dude-property-string.html">
 <link rel="import" href="dude-property-boolean.html">
 <link rel="import" href="dude-property-resource.html">
@@ -40,9 +41,11 @@
                 <div id="property" class="property">
                     <label class="property-label">[[ propertyName ]]</label>
                 </div>
-                <div class="clear">
-                    <button on-click="clear">Clear</button>
-                </div>
+                <template is="dom-if" if="[[ !propertyHideClear ]]">
+                    <div class="clear">
+                        <button on-click="clear">Clear</button>
+                    </div>
+                </template>
             </div>
         </div>
     </template>
@@ -58,6 +61,7 @@
                     "value": {
                         "Text": "dude-property-text",
                         "Color": "dude-property-color",
+                        "Choice": "dude-property-choice",
                         "String": "dude-property-string",
                         "Number": "dude-property-string",
                         "Boolean": "dude-property-boolean",
@@ -97,6 +101,14 @@
                     "type": Object,
                     "notify": true,
                     "observer": "_propertyValueChanged"
+                },
+
+                /**
+                 * Whether to hide the clear button
+                 */
+                "propertyHideClear": {
+                    "type": Boolean,
+                    "value": false
                 }
             },
             listeners: {
@@ -140,7 +152,7 @@
             },
 
             /**
-             * Clears the property by setting it to nul
+             * Clears the property by setting it to null
              */
             clear: function () {
                 this.set("propertyValue", null);

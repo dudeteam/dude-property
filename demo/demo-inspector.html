@@ -31,17 +31,8 @@
             <dude-property
                     property-name="color"
                     property-type="Color"
+                    property-hide-clear
                     property-value="{{ colorValue }}">
-            </dude-property>
-            <dude-property
-                    property-name="type"
-                    property-type="String"
-                    property-value="{{ typeValue }}">
-            </dude-property>
-            <dude-property
-                    property-name="type (clone)"
-                    property-type="String"
-                    property-value="{{ typeValue }}">
             </dude-property>
             <dude-property
                     property-name="activated"
@@ -54,7 +45,14 @@
                     property-value="{{ resourceValue }}">
             </dude-property>
             <dude-property
-                    property-name="custom"
+                    property-name="type"
+                    property-type="Choice"
+                    property-hide-clear
+                    property-data="[[ typeData ]]"
+                    property-value="{{ typeValue }}">
+            </dude-property>
+            <dude-property
+                    property-name="Dynamic property"
                     property-type="[[ typeValue ]]"
                     property-value="{{ customValue }}">
             </dude-property>
@@ -80,6 +78,10 @@
                 "colorValue": {
                     "type": String,
                     "value": "#ff00ff"
+                },
+                "typeData": {
+                    "type": Array,
+                    "value": ["String", "Boolean", "Number"]
                 },
                 "typeValue": {
                     "type": String,
@@ -109,9 +111,9 @@
                 console.log("message", this.get("messageValue"));
                 console.log("ratio", this.get("ratioValue"));
                 console.log("color", this.get("colorValue"));
-                console.log("type", this.get("typeValue"));
                 console.log("activated", this.get("activatedValue"));
                 console.log("resource", this.get("resourceValue"));
+                console.log("type", this.get("typeValue"));
                 console.log("custom", this.get("customValue"));
             }
         });
