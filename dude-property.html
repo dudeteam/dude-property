@@ -56,7 +56,7 @@
                 /**
                  * The managed property types
                  */
-                "propertyElementTypes": {
+                "propertyItemElementTypes": {
                     "type": Object,
                     "value": {
                         "Text": "dude-property-text",
@@ -118,24 +118,24 @@
 
             /**
              * The property element
-             * @type {HTMLElement}
+             * @type {DudePropertyItemElement}
              * @private
              */
-            _propertyElement: null,
+            _propertyItemElement: null,
 
             /**
              * Whether the property element is ready
              * @type {Boolean}
              * @private
              */
-            _propertyElementIsReady: false,
+            _propertyItemElementIsReady: false,
 
             /**
              * Whether the property type is managed
              * @type {Boolean}
              * @private
              */
-            _propertyManaged: false,
+            _propertyItemManaged: false,
 
             /**
              * Registers the given propertyType with the given propertyElementName
@@ -143,12 +143,12 @@
              * @param {String} propertyElementName
              */
             registerPropertyElement: function (propertyType, propertyElementName) {
-                var propertyElement = this.get("propertyElementTypes")[propertyType];
-                if (typeof propertyElement === "undefined") {
+                var propertyItemElement = this.get("propertyItemElementTypes")[propertyType];
+                if (typeof propertyItemElement === "undefined") {
                     console.warn("`" + propertyType + "` already managed");
                     return;
                 }
-                this.get("propertyElementTypes")[propertyType] = propertyElementName;
+                this.get("propertyItemElementTypes")[propertyType] = propertyElementName;
             },
 
             /**
@@ -159,72 +159,81 @@
             },
 
             /**
-             * Creates the property element for the given propertyType
+             * Creates the property item element for the given propertyType
              * @param {String} propertyType
              * @private
              */
             _createPropertyElement(propertyType) {
-                var propertyElement = this.get("propertyElementTypes")[propertyType];
-                if (typeof propertyElement === "undefined") {
-                    this.set("_propertyManaged", false);
+                var propertyItemElement = this.get("propertyItemElementTypes")[propertyType];
+                if (typeof propertyItemElement === "undefined") {
+                    this.set("_propertyItemManaged", false);
                     console.warn("`" + propertyType + "` not managed");
                     return;
                 }
-                this.set("_propertyManaged", true);
-                this._propertyElement = document.createElement(propertyElement);
-                this.$.property.appendChild(this._propertyElement);
+                this.set("_propertyItemManaged", true);
+                this._propertyItemElement = document.createElement(propertyItemElement);
+                this.$.property.appendChild(this._propertyItemElement);
             },
 
             /**
              * Called when the property type changed
-             * Will create the appropriate property element
+             * Will create the appropriate property item element
              * @private
              */
             _propertyTypeChanged: function (propertyType) {
-                if (this._propertyElement !== null && this._propertyElement.get("propertyType") !== propertyType) {
-                    this.$.property.removeChild(this._propertyElement);
-                    this._propertyElement = null;
-                    this.set("_propertyElementIsReady", false);
+                if (this._propertyItemElement !== null && this._propertyItemElement.get("propertyType") !== propertyType) {
+                    this.$.property.removeChild(this._propertyItemElement);
+                    this._propertyItemElement = null;
+                    this.set("_propertyItemElementIsReady", false);
                 }
-                if (this._propertyElement === null) {
+                if (this._propertyItemElement === null) {
                     this._createPropertyElement(propertyType);
                 }
             },
 
             /**
              * Called when the propertyValue changed
-             * Notifies the custom element that the property value changed
+             * Notifies the property item element that the property value changed
              * @private
              */
             _propertyValueChanged: function (propertyValue) {
-                if (this.get("_propertyElementIsReady")) {
-                    if (this._propertyElement.get("propertyValue") !== propertyValue) {
-                        this._propertyElement.setPropertyValue(this.get("propertyValue"));
+                if (this.get("_propertyItemElementIsReady")) {
+                    if (this._propertyItemElement.get("propertyValue") !== propertyValue) {
+                        this._propertyItemElement.setPropertyValue(this.get("propertyValue"));
                     }
                 }
             },
 
             /**
-             * Called when the property element is ready
+             * Called when the property item element is ready
              * @private
              */
             _propertyElementReady: function () {
-                this.set("_propertyElementIsReady", true);
-                this._propertyElement.set("propertyType", this.get("propertyType"));
-                this._propertyElement.set("propertyName", this.get("propertyName"));
-                this._propertyElement.set("propertyData", this.get("propertyData"));
-                this._propertyElement.setPropertyValue(this.get("propertyValue"));
+                this.set("_propertyItemElementIsReady", true);
+                this._propertyItemElement.set("property", this);
+                this._propertyItemElement.set("propertyType", this.get("propertyType"));
+                this._propertyItemElement.set("propertyName", this.get("propertyName"));
+                this._propertyItemElement.set("propertyData", this.get("propertyData"));
+                this._propertyItemElement.setPropertyValue(this.get("propertyValue"));
             },
 
             /**
-             * Called when the property element value is updated
+             * Called when the property item element value is updated
              * @private
              */
             _propertyElementValueChanged: function () {
-                if (this.get("_propertyElementIsReady")) {
-                    this.set("propertyValue", this._propertyElement.get("propertyValue"));
+                if (this.get("_propertyItemElementIsReady")) {
+                    this.set("propertyValue", this._propertyItemElement.get("propertyValue"));
                 }
             }
+
+            /**
+             * @typedef {Element} DudePropertyElement
+             */
+
+            /**
+             * @typedef {Element} DudePropertyItemElement
+             */
         });
     </script>
 </dom-module>
