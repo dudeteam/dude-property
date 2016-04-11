@@ -145,17 +145,24 @@
             registerPropertyElement: function (propertyType, propertyElementName) {
                 var propertyItemElement = this.get("propertyItemElementTypes")[propertyType];
                 if (typeof propertyItemElement === "undefined") {
-                    console.warn("`" + propertyType + "` already managed");
+                    // console.warn("`" + propertyType + "` already managed");
                     return;
                 }
                 this.get("propertyItemElementTypes")[propertyType] = propertyElementName;
             },
 
             /**
-             * Clears the property by setting it to null
+             * Clears the property (null by default)
              */
             clear: function () {
-                this.set("propertyValue", null);
+                if (this.get("_propertyItemElementIsReady")) {
+                    var clear = this._propertyItemElement.clear;
+                    if (typeof clear !== "function") {
+                        this.set("propertyValue", null);
+                    } else {
+                        clear.call(this._propertyItemElement);
+                    }
+                }
             },
 
             /**
@@ -233,6 +240,8 @@
 
             /**
              * @typedef {Element} DudePropertyItemElement
+             * @property {Function} setPropertyValue
+             * @property {Function} [clear]
              */
         });
     </script>
