@@ -64,7 +64,10 @@
              * Clears propertyValue.resourceValue to null
              */
             clear: function () {
-                this.set("propertyValue.resourceValue", null);
+                this.set("propertyValue", {
+                    "resourceValue": null,
+                    "resourceValueType": this.get("propertyValueType")
+                });
             },
 
             /**
