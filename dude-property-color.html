@@ -1,6 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
-<link rel="import" href="../dude-input/dude-input.html">
+<link rel="import" href="../paper-input/paper-textarea.html">
 <!--
 `dude-property-color`
 
@@ -12,9 +12,10 @@
     <style include="iron-flex"></style>
     <template>
         <input value="{{ propertyValue::input }}" type="color">
-        <dude-input value="{{ propertyValue }}"
-                    type="text">
-        </dude-input>
+        <paper-input
+                value="{{ propertyValue::input }}"
+                type="text">
+        </paper-input>
     </template>
     <script>
         Polymer({

@@ -1,6 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
-<link rel="import" href="../dude-input/dude-input-textarea.html">
+<link rel="import" href="../paper-input/paper-textarea.html">
 <!--
 `dude-property-text`
 
@@ -11,10 +11,10 @@
 <dom-module id="dude-property-text">
     <style include="iron-flex"></style>
     <template>
-        <dude-input-textarea
-                value="{{ propertyValue }}"
+        <paper-textarea
+                value="{{ propertyValue::input }}"
                 type="[[ inputType ]]">
-        </dude-input-textarea>
+        </paper-textarea>
     </template>
     <script>
         Polymer({
