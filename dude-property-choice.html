@@ -1,5 +1,8 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../paper-listbox/paper-listbox.html">
+<link rel="import" href="../paper-item/paper-item.html">
 <!--
 `dude-property-boolean`
 
@@ -10,11 +13,13 @@
 <dom-module id="dude-property-choice">
     <style include="iron-flex"></style>
     <template>
-        <select value="{{ propertyValue::change }}">
-            <template is="dom-repeat" items="{{ propertyData }}" as="choice">
-                <option selected$="{{ _selected(choice, propertyValue) }}">{{ choice }}</option>
-            </template>
-        </select>
+        <paper-dropdown-menu>
+            <paper-listbox class="dropdown-content" selected="{{ propertyValue }}" attr-for-selected="name">
+                <template is="dom-repeat" items="{{ propertyData }}" as="choice">
+                    <paper-item name="[[ choice ]]">[[ choice ]]</paper-item>
+                </template>
+            </paper-listbox>
+        </paper-dropdown-menu>
     </template>
     <script>
         Polymer({

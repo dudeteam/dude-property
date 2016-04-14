@@ -1,6 +1,6 @@
 {
   "name": "dude-property",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "authors": [
     "Jonathan Picques <jonathan.picques@gmail.com>",
     "Jeremie Taboada <taboada.jeremie@gmail.com>"
@@ -22,7 +22,13 @@
     "polymer": "^1.4.0",
     "dude-style": "^0.1.3",
     "paper-input": "PolymerElements/paper-input#^1.1.10",
-    "iron-flex-layout": "PolymerElements/iron-flex-layout#^1.3.1"
+    "iron-flex-layout": "PolymerElements/iron-flex-layout#^1.3.1",
+    "paper-toggle-button": "PolymerElements/paper-toggle-button#^1.1.2",
+    "paper-menu": "PolymerElements/paper-menu#^1.2.2",
+    "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#^1.2.0",
+    "paper-listbox": "PolymerElements/paper-listbox#^1.1.2",
+    "paper-item": "PolymerElements/paper-item#^1.2.0",
+    "paper-button": "PolymerElements/paper-button#^1.0.11"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.1.5",

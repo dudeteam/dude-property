@@ -37,7 +37,7 @@
                     "observer": "_propertyValueChanged"
                 },
                 "resourceValueName": {
-                    "computed": "_resourceValueName(propertyValue, propertyValue.resourceValue)"
+                    "computed": "_resourceValueName(propertyValue)"
                 }
             },
             listeners: {
@@ -61,16 +61,6 @@
             },
 
             /**
-             * Clears propertyValue.resourceValue to null
-             */
-            clear: function () {
-                this.set("propertyValue", {
-                    "resourceValue": null,
-                    "resourceValueType": this.get("propertyValueType")
-                });
-            },
-
-            /**
              * Called when the propertyValue changed
              * Notifies dude-property that the property value changed
              * @private
@@ -84,7 +74,7 @@
              * @private
              */
             _resourceValueName: function (propertyValue) {
-                return (propertyValue && propertyValue.resourceValue && propertyValue.resourceValue.name) || "(None)";
+                return (propertyValue && propertyValue.name) || "(None)";
             },
 
             /**
