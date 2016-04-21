@@ -22,13 +22,15 @@
             @apply(--layout-flex);
         }
 
-        .property {
+        .flex-child {
             @apply(--layout-flex);
             @apply(--layout-self-start);
         }
 
         .clear {
-            @apply(--layout-self-center);
+            cursor: pointer;
+            color: var(--dude-type-number-color);
+            text-decoration: underline;
         }
 
         .property-label {
@@ -38,14 +40,13 @@
     <template>
         <div id="container" hidden$="[[ !_propertyItemManaged ]]">
             <div class="parent">
-                <div id="property" class="property">
-                    <label class="property-label">[[ propertyName ]]</label>
-                </div>
-                <template is="dom-if" if="[[ !propertyHideClear ]]">
-                    <div class="clear">
-                        <button on-click="clear">Clear</button>
+                <div class="flex-child">
+                    <div>
+                        <label class="property-label">[[ propertyName ]]</label>
+                        <span class="clear" hidden$="propertyHideClear" on-click="clear">Clear</span>
                     </div>
-                </template>
+                    <div id="property"></div>
+                </div>
             </div>
         </div>
     </template>
