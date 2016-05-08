@@ -10,6 +10,16 @@
 -->
 <dom-module id="dude-property-boolean">
     <style include="iron-flex"></style>
+    <style>
+        :host {
+            --paper-toggle-button-checked-bar-color: var(--dude-select1-color);
+            --paper-toggle-button-checked-button-color: var(--dude-select2-color);
+            --paper-toggle-button-checked-ink-color: var(--dude-select1-color);
+        }
+        paper-toggle-button {
+            margin-top: 10px;
+        }
+    </style>
     <template>
         <paper-toggle-button
                 checked="{{ propertyValue::change }}">
