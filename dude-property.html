@@ -17,6 +17,9 @@
 <dom-module id="dude-property">
     <style include="iron-flex"></style>
     <style>
+        #container {
+            margin-bottom: 15px;
+        }
         .parent {
             @apply(--layout-horizontal);
             @apply(--layout-flex);
@@ -27,23 +30,31 @@
             @apply(--layout-self-start);
         }
 
+        .property-header {
+            @apply(--layout-horizontal);
+        }
+
         .clear {
             cursor: pointer;
-            color: var(--dude-type-number-color);
+            color: var(--dude-dark2-color);
             text-decoration: underline;
+            font-size: .8em;
         }
 
         .property-label {
-            color: var(--dude-content-text-color);
+            font-family: var(--dude-font-primary);
+            font-size: .8em;
+            color: var(--dude-dark2-color);
+            @apply(--layout-flex);
         }
     </style>
     <template>
         <div id="container" hidden$="[[ !_propertyItemManaged ]]">
             <div class="parent">
                 <div class="flex-child">
-                    <div>
+                    <div class="property-header">
                         <label class="property-label">[[ propertyName ]]</label>
-                        <span class="clear" hidden$="propertyHideClear" on-click="clear">Clear</span>
+                        <span class="clear" hidden$="propertyHideClear" on-click="clear"><i class="fa fa-times"></i></span>
                     </div>
                     <div id="property"></div>
                 </div>
