@@ -12,6 +12,21 @@
 -->
 <dom-module id="dude-property-choice">
     <style include="iron-flex"></style>
+    <style>
+        :host {
+            --paper-item: {
+                font-family: var(--dude-font-primary);
+            };
+        }
+        paper-dropdown-menu {
+            width: 100%;
+            box-sizing: border-box;
+            --paper-input-container-focus-color: var(--dude-select2-color);
+            --paper-input-container-input: {
+                font-family: var(--dude-font-primary);
+            };
+        }
+    </style>
     <template>
         <paper-dropdown-menu>
             <paper-listbox class="dropdown-content" selected="{{ propertyValue }}" attr-for-selected="name">
