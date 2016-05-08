@@ -1,24 +1,33 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
-<link rel="import" href="../paper-input/paper-textarea.html">
+<link rel="import" href="../paper-toggle-button/paper-toggle-button.html">
 <!--
-`dude-property-text`
+`dude-property-boolean`
 
 @group dude Elements
 @element dude-property
 @demo demo/index.html
 -->
-<dom-module id="dude-property-text">
+<dom-module id="dude-property-boolean">
     <style include="iron-flex"></style>
+    <style>
+        :host {
+            --paper-toggle-button-checked-bar-color: var(--dude-select1-color);
+            --paper-toggle-button-checked-button-color: var(--dude-select2-color);
+            --paper-toggle-button-checked-ink-color: var(--dude-select1-color);
+        }
+        paper-toggle-button {
+            margin-top: 10px;
+        }
+    </style>
     <template>
-        <paper-textarea
-                value="{{ propertyValue::input }}"
-                type="[[ inputType ]]">
-        </paper-textarea>
+        <paper-toggle-button
+                checked="{{ propertyValue::change }}">
+        </paper-toggle-button>
     </template>
     <script>
         Polymer({
-            is: "dude-property-text",
+            is: "dude-property-boolean",
             properties: {
                 "property": {
                     "type": "DudePropertyElement"
