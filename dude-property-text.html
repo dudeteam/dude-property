@@ -1,34 +1,84 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
-<link rel="import" href="../paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="../paper-input/paper-textarea.html">
 <!--
-`dude-property-boolean`
+`dude-property-text`
 
 @group dude Elements
 @element dude-property
 @demo demo/index.html
 -->
-<dom-module id="dude-property-boolean">
+<dom-module id="dude-property-text">
     <style include="iron-flex"></style>
     <style>
         :host {
-            --paper-toggle-button-checked-bar-color: var(--dude-select1-color);
-            --paper-toggle-button-checked-button-color: var(--dude-select2-color);
-            --paper-toggle-button-checked-ink-color: var(--dude-select1-color);
+            --paper-input-container-focus-color: var(--dude-select2-color);
+            --paper-input-container-input: {
+                font-family: var(--dude-font-primary);
+            };
         }
-        paper-toggle-button {
-            margin-top: 10px;
+        #container {
+            @apply(--layout-horizontal);
+        }
+        i {
+            font-size: .8em;
+            margin-top: 15px;
+            color: var(--dude-dark2-color);
+            cursor: pointer;
+        }
+        paper-textarea {
+            margin-top: -20px;
+            margin-left: 10px;
+            @apply(--layout-flex);
+        }
+        #overlay {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.8);
+            z-index: 10;
+        }
+        .fa-times {
+            font-size: 1.5em;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+        }
+        [contenteditable] {
+            outline: none;
+            font-family: var(--dude-font-content);
+            font-size: 1.2em;
+            padding: 60px 50px 10px;
+            color: var(--dude-dark1-color);
+            height: 100%;
+            box-sizing: border-box;
         }
     </style>
     <template>
-        <paper-toggle-button
-                checked="{{ propertyValue::change }}">
-        </paper-toggle-button>
+        <div id="overlay" hidden$="[[ !expanded ]]">
+            <i class="fa fa-times" on-click="close"></i>
+            <div contenteditable on-input="_updatePropertyValue">
+                {{propertyValue}}
+            </div>
+        </div>
+        <div id="container">
+            <i class="fa fa-expand" on-click="expand"></i>
+            <paper-textarea
+                    value="{{ propertyValue::input }}"
+                    type="[[ inputType ]]">
+            </paper-textarea>
+        </div>
     </template>
     <script>
         Polymer({
-            is: "dude-property-boolean",
+            is: "dude-property-text",
             properties: {
+                "expanded": {
+                    "type": Boolean,
+                    "value": false
+                },
                 "property": {
                     "type": "DudePropertyElement"
                 },
@@ -64,6 +114,18 @@
              */
             setPropertyValue: function (propertyValue) {
                 this.set("propertyValue", propertyValue);
+            },
+
+            expand: function () {
+                this.set("expanded", true);
+            },
+
+            close: function () {
+                this.set("expanded", false);
+            },
+
+            _updatePropertyValue: function (event) {
+                this.set("propertyValue", event.target.textContent);
             },
 
             /**
