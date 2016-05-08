@@ -10,6 +10,17 @@
 -->
 <dom-module id="dude-property-string">
     <style include="iron-flex"></style>
+    <style>
+        :host {
+            --paper-input-container-focus-color: var(--dude-select2-color);
+            --paper-input-container-input: {
+                font-family: var(--dude-font-primary);
+            };
+        }
+        paper-input {
+            margin-top: -20px;
+        }
+    </style>
     <template>
         <paper-input
                 value="{{ propertyValue::input }}"
