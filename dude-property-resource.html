@@ -10,8 +10,18 @@
 -->
 <dom-module id="dude-property-resource">
     <style include="iron-flex"></style>
+    <style>
+        paper-button {
+            background: var(--dude-select1-color);
+            color: var(--dude-dark1-color);
+            font-family: var(--dude-font-primary);
+            margin: 10px 0 0;
+            width: 100%;
+            border-radius: 0;
+        }
+    </style>
     <template>
-        <paper-button class="flex" on-click="_openResourceManager">[[ resourceValueName ]]</paper-button>
+        <paper-button on-click="_openResourceManager">[[ resourceValueName ]]</paper-button>
     </template>
     <script>
         Polymer({
