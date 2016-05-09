@@ -11,7 +11,7 @@
 <dom-module id="dude-property-resource">
     <style include="iron-flex"></style>
     <style>
-        paper-button {
+        #property-button {
             background: var(--dude-select1-color);
             color: var(--dude-dark1-color);
             font-family: var(--dude-font-primary);
@@ -21,7 +21,9 @@
         }
     </style>
     <template>
-        <paper-button on-click="_openResourceManager">[[ resourceValueName ]]</paper-button>
+        <paper-button id="property-button"
+                      on-click="_openResourceManager">[[ resourceValueName ]]
+        </paper-button>
     </template>
     <script>
         Polymer({

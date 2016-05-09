@@ -18,7 +18,8 @@
                 font-family: var(--dude-font-primary);
             };
         }
-        paper-dropdown-menu {
+
+        #property-menu {
             width: 100%;
             box-sizing: border-box;
             --paper-input-container-focus-color: var(--dude-select2-color);
@@ -28,7 +29,7 @@
         }
     </style>
     <template>
-        <paper-dropdown-menu>
+        <paper-dropdown-menu id="property-menu">
             <paper-listbox class="dropdown-content" selected="{{ propertyValue }}" attr-for-selected="name">
                 <template is="dom-repeat" items="{{ propertyData }}" as="choice">
                     <paper-item name="[[ choice ]]">[[ choice ]]</paper-item>

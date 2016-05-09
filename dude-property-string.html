@@ -17,12 +17,14 @@
                 font-family: var(--dude-font-primary);
             };
         }
-        paper-input {
+
+        #property-input {
             margin-top: -20px;
         }
     </style>
     <template>
         <paper-input
+                id="property-input"
                 value="{{ propertyValue::input }}"
                 type="[[ inputType ]]">
         </paper-input>

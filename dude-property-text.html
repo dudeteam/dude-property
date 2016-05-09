@@ -17,20 +17,7 @@
                 font-family: var(--dude-font-primary);
             };
         }
-        #container {
-            @apply(--layout-horizontal);
-        }
-        i {
-            font-size: .8em;
-            margin-top: 15px;
-            color: var(--dude-dark2-color);
-            cursor: pointer;
-        }
-        paper-textarea {
-            margin-top: -20px;
-            margin-left: 10px;
-            @apply(--layout-flex);
-        }
+
         #overlay {
             position: fixed;
             top: 0;
@@ -40,35 +27,61 @@
             background: rgba(255, 255, 255, 0.8);
             z-index: 10;
         }
-        .fa-times {
+
+        #container {
+            @apply(--layout-horizontal);
+            max-width: 100%;
+        }
+
+        #property-textarea {
+            @apply(--layout-flex);
+            margin-left: 10px;
+            margin-top: -20px;
+            max-width: 100%;
+        }
+
+        #fullscreen-textarea {
+            font-family: var(--dude-font-content);
+            font-size: 1.2em;
+            box-sizing: border-box;
+            outline: none;
+            padding: 60px 50px 10px;
+            color: var(--dude-dark1-color);
+            width: 100%;
+            height: 100%;
+        }
+
+        .icon-button {
+            color: var(--dude-dark2-color);
+            cursor: pointer;
+        }
+
+        .icon-expand {
+            position: relative;
+            margin-top: 15px;
+            font-size: .8em;
+        }
+
+        .icon-collapse {
+            margin-top: 15px;
             font-size: 1.5em;
             position: absolute;
             top: 10px;
-            left: 20px;
-        }
-        [contenteditable] {
-            outline: none;
-            font-family: var(--dude-font-content);
-            font-size: 1.2em;
-            padding: 60px 50px 10px;
-            color: var(--dude-dark1-color);
-            height: 100%;
-            box-sizing: border-box;
+            right: 20px;
         }
     </style>
     <template>
-        <div id="overlay" hidden$="[[ !expanded ]]">
-            <i class="fa fa-times" on-click="close"></i>
-            <div contenteditable on-input="_updatePropertyValue">
-                {{propertyValue}}
-            </div>
-        </div>
         <div id="container">
-            <i class="fa fa-expand" on-click="expand"></i>
-            <paper-textarea
-                    value="{{ propertyValue::input }}"
-                    type="[[ inputType ]]">
+            <i class="icon-button icon-expand fa fa-expand" on-click="expand"></i>
+            <paper-textarea id="property-textarea"
+                            value="{{ propertyValue }}">
             </paper-textarea>
+        </div>
+        <div id="overlay" hidden$="[[ !expanded ]]">
+            <i class="icon-button icon-collapse fa fa-times" on-click="collapse"></i>
+            <textarea id="fullscreen-textarea"
+                      value="{{ propertyValue::input }}">
+            </textarea>
         </div>
     </template>
     <script>
@@ -116,16 +129,18 @@
                 this.set("propertyValue", propertyValue);
             },
 
+            /**
+             * Expands the textarea fullscreen
+             */
             expand: function () {
                 this.set("expanded", true);
             },
 
-            close: function () {
+            /**
+             * Collapses the fullscreen textarea
+             */
+            collapse: function () {
                 this.set("expanded", false);
-            },
-
-            _updatePropertyValue: function (event) {
-                this.set("propertyValue", event.target.textContent);
             },
 
             /**

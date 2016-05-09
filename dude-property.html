@@ -20,6 +20,7 @@
         #container {
             margin-bottom: 15px;
         }
+
         .parent {
             @apply(--layout-horizontal);
             @apply(--layout-flex);
@@ -54,7 +55,8 @@
                 <div class="flex-child">
                     <div class="property-header">
                         <label class="property-label">[[ propertyName ]]</label>
-                        <span class="clear" hidden$="propertyHideClear" on-click="clear"><i class="fa fa-times"></i></span>
+                        <span class="clear" hidden$="propertyHideClear" on-click="clear"><i
+                                class="fa fa-times"></i></span>
                     </div>
                     <div id="property"></div>
                 </div>

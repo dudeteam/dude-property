@@ -16,12 +16,14 @@
             --paper-toggle-button-checked-button-color: var(--dude-select2-color);
             --paper-toggle-button-checked-ink-color: var(--dude-select1-color);
         }
-        paper-toggle-button {
+
+        #property-toggle {
             margin-top: 10px;
         }
     </style>
     <template>
         <paper-toggle-button
+                id="property-toggle"
                 checked="{{ propertyValue::change }}">
         </paper-toggle-button>
     </template>
